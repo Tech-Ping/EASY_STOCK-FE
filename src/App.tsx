@@ -1,7 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/login_page';
+import Signup from './pages/signup_page';
 
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
+  );
+};
+/*
 function App() {
   return (
     <div className="App">
@@ -22,5 +36,5 @@ function App() {
     </div>
   );
 }
-
+*/
 export default App;

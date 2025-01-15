@@ -1,0 +1,111 @@
+/* 기본 컨테이너 스타일 */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Disable scrolling */
+  height: 100vh; /* Constrain the height */
+  font-family: Pretendard;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box; /* Includes padding in height calculation */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 제목 스타일 */
+  .login-container h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2A2738;
+    margin-bottom: 70px;
+    text-align: center
+  }
+  
+  .login-container .login-form {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    width: 350px;
+  }
+
+  /* 입력 필드 스타일 */
+  .login-container .input-field  {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #EDEEF2;
+    border-radius: 12px;
+  }
+  .login-container .input-field :focus {
+    background-color: #989898; /* 선택 시 배경색 */
+    border-color: #989898; /* 선택 시 테두리색 */
+    outline: none; /* 기본 초점 테두리 제거 */
+  }
+  .login-container .input-field ::placeholder {
+    color: #989898; /* 원하는 색상 */
+    font-size: 1rem; /* 글자 크기 */
+  }
+  
+  /* 로그인 버튼 스타일 */
+  .login-container .login-button {
+    width: 100%;
+    width: 350px;
+    height: 50px;
+    padding: 10px;
+    background-color:  #00CE93;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-container .login-button:hover {
+    background-color:  #00CE93;
+  }
+  
+  /* 비밀번호 찾기 스타일 */
+  .forgot-password {
+    color: #5F5F5F;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 7px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* 회원가입 버튼 스타일 */
+  .login-container .signup-button {
+    width: 100%;
+    width: 350px;
+    height: 50px;
+    padding: 10px;
+    background-color: #EDEEF2;
+    color: #757575;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight:bold;
+    cursor: pointer;
+    position: absolute; /* Position at the bottom */
+    bottom: 30px;
+  }
+  
+  .login-container .signup-button:hover {
+    background-color: #757575;
+  }

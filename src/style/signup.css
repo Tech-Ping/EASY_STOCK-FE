@@ -1,0 +1,188 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Pretendard;
+    height: 100vh;
+    overflow: auto;
+  }
+  
+  .signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: left;
+    position: relative;
+    height: 100%;
+  }
+  
+  .signup-container h1 {
+    font-size: 24px;
+    margin-top: 70px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #2A2738;
+    text-align: left;
+    width: 100%;
+    margin-left: 20px;
+  }
+  
+  .signup-container p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2A2738;
+    margin-bottom: 50px;
+    width: 100%;
+    margin-left: 20px;
+  }
+  
+  .signup-container .signup-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 90%;
+    max-width: 350px;
+    margin-left: -20px;
+
+  }
+  
+  .signup-container .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .signup-container .input-group label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2A2738;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  
+  .signup-container .input-group .required {
+    color: #EB3639;
+  }
+  
+  .signup-container .input-field {
+    width: 100%;
+    padding: 10px;
+    height: 30px;
+    font-size: 1rem;
+    border: 1px solid #EDEEF2;
+    border-radius: 12px;
+    background-color: #EDEEF2;
+    margin-bottom: 0;
+  }
+
+  .signup-container .input-field ::placeholder{
+    color: #989898; /* 원하는 색상 */
+    font-size: 1rem; /* 글자 크기 */
+    font-weight: 500;
+  }
+  
+  .signup-container .input-field:focus {
+    border-color: #989898;
+    outline: none;
+  }
+
+  .input-field.disabled-field::placeholder {
+    color: #D1D1D1; /* Placeholder color for disabled fields */
+  }
+  
+  .input-field.disabled-field {
+    background-color: #F8F9FB;
+    color: #D1D1D1;
+    border: 1px solid #F8F9FB;
+  }
+  
+  /* Style the checkbox container */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    bottom:20px;
+  }
+  
+  /* Hide the default checkbox appearance */
+  .checkbox-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00CE93; /* Green border */
+    border-radius: 3px; /* Slightly rounded corners */
+    outline: none;
+    cursor: pointer;
+    background-color: #fff; /* Background color for unchecked state */
+    position: relative;
+  }
+  
+  /* Hover effect for the checkbox */
+  .checkbox-group input[type="checkbox"]:hover {
+    border-color: #00B87A; /* Darker green on hover */
+  }
+  
+  /* Checkmark when checkbox is checked */
+  .checkbox-group input[type="checkbox"]:checked {
+    background-color: #00CE93; /* Green background */
+    border-color: #00CE93; /* Border matches background */
+  }
+  
+  .checkbox-group input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg); /* Checkmark rotation */
+  }
+  
+  /* Style the label text */
+  .checkbox-group label {
+    color: #5F5F5F; /* Gray text */
+    margin-left: 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Style the hyperlink in the label */
+  .checkbox-group a {
+    color: #5F5F5F; /* Green link */
+    text-decoration: none;
+  }
+  
+  .checkbox-group a:hover {
+    text-decoration: underline;
+  }
+  
+  .signup-container .signup-button {
+    align-items: center;
+    background-color: #00ce93;
+    width: 100%;
+    max-width: 450px;
+    color: #fff;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    bottom:0px;
+    margin-bottom: 15px;
+    margin-left:10px;
+  }
+  
+  .signup-container .signup-button:hover {
+    background-color: #00b87a;
+  }
+  
