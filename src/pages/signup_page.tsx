@@ -12,6 +12,8 @@ const Signup: React.FC = () => {
     password: '',
     confirmPassword: '',
   });
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
@@ -27,7 +29,14 @@ const Signup: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
+
+    if(id == 'confirmPassword' && formData.password !== value ) {
+      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setConfirmPasswordError('');
+    }
   };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,6 +139,9 @@ const Signup: React.FC = () => {
               marginTop: -10,
             }}
           />
+          {confirmPasswordError && (
+            <p className='error-message'>{confirmPasswordError}</p>
+          )}
         </div>
 
         {/* Privacy Policy */}

@@ -69,7 +69,7 @@ body {
     border: none;
     border-radius: 12px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     margin-top: 10px;
   }
@@ -82,7 +82,7 @@ body {
   .forgot-password {
     color: #5F5F5F;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 500;
     margin-top: 7px;
     margin-bottom: 20px;
     cursor: pointer;
@@ -100,7 +100,7 @@ body {
     border: none;
     border-radius: 12px;
     font-size: 1rem;
-    font-weight:bold;
+    font-weight:500;
     cursor: pointer;
     position: absolute; /* Position at the bottom */
     bottom: 30px;
