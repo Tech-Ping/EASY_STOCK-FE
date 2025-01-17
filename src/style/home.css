@@ -1,0 +1,22 @@
+
+.home-container {
+    min-height: 100vh;
+    width: 100%;
+    max-width:700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .home-compoent-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #2a2738;
+  }
+  

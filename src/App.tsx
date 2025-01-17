@@ -4,15 +4,20 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/login_page';
 import Signup from './pages/signup_page';
+import NotificationPage from './pages/notif_page';
+import Home from './pages/home';
+import Stock_inv from './pages/invest_page';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/notification" element={<NotificationPage />} />
+        <Route path="/invest" element={<Stock_inv />} />
       </Routes>
     </Router>
+
   );
 };
 /*
