@@ -4,15 +4,21 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/login_page';
 import Signup from './pages/signup_page';
+import UserField from './components/user_field';
 
 const App: React.FC = () => {
   return (
+    <div className='App'>
+      <UserField/>
+    </div>
+    /*
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
+    */
   );
 };
 /*
