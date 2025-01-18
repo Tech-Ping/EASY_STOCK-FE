@@ -7,6 +7,7 @@ import Signup from './pages/signup_page';
 import NotificationPage from './pages/notif_page';
 import Home from './pages/home';
 import Stock_inv from './pages/invest_page';
+import UserField from './components/user_field';
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,6 @@ const App: React.FC = () => {
         <Route path="/invest" element={<Stock_inv />} />
       </Routes>
     </Router>
-
   );
 };
 /*

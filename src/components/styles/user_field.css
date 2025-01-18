@@ -1,0 +1,152 @@
+.user-field-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f6f8;
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .img-lv-name-stoken {
+    align-items: center;
+    display: flex;
+    width: 80%;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .profile-image-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-img {
+    border-radius: 50%;
+    width: 70px;
+  }
+  
+  .lv-name-stoken {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 10%;
+  }
+  
+  .level-display {
+    font-size: 0.8rem;
+    color: #00ce93;
+    font-weight: 500;
+    margin: 5px 0;
+  }
+  
+  .name-stoken {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .nickname {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .token-display {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #00ce93;
+    color: white;
+    border-radius: 15px;
+    font-size: 0.6rem;
+    margin-left: 20px;
+  }
+  .circle{
+    background-color: white;
+    width:0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    margin-right:3px;
+  }
+  .token{
+    margin-top:1px;
+    font-weight: 600;
+  }
+  .XP-gauge-container {
+    margin-top: 5px;
+    width: 90%;
+  }
+  
+  .levels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 10px;
+    color: #989898;
+  }
+  .levels-next{
+    color: #00CE93;
+  }
+  
+  .XP-guage {
+    background-color: #E3E4E8;
+    border-radius: 5px;
+    height: 15px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .XP-bar {
+    background-color: #00ce93;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5px;
+    border-radius: 4px;
+  }
+
+  .xp-bar-text{
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 0;
+  }
+  
+  .xp-info-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap:3px;
+    font-size: 0.7rem;
+    color: #6c757d;
+  }
+  
+  .level-up-info {
+    font-weight: bold;
+    color: #00ce93;
+  }
+  
+  .level-up-action {
+    color: #2a2738;
+  }
+  
+  .xp-required {
+    font-weight: bold;
+    color: #2a2738;
+  }
+  
+  .level-up-remark {
+    color: #2a2738;
+  }
+  
