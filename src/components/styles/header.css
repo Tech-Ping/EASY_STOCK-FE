@@ -1,13 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
 /* General container styles for the header */
 .header-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
     width: 100%;
-    max-width: 700px;
-    background-color: #fff;
+    max-width:700px;
+    background-color: #FFF;
     color: #2A2738;
     padding: 10px 20px;
-    align-items: center;
+    margin: 0 auto;
     font-size: 1.5rem;
     position: relative; /* Ensures proper positioning for back icon */
   }
@@ -23,10 +29,11 @@
   .notif-button {
     display: flex;
     background: none;
-    border: none;
+    border:none;
     cursor: pointer;
     align-items: center;
-    margin-right:3%;
+    margin-left:-3%;
+    margin-right: 15px;
   }
 
   /* Styles for the back icon */

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
+import '../style/notif_page.css';
 
 const NotificationPage: React.FC = () => {
     const [activeButton, setActiveButton] = useState("unread");
