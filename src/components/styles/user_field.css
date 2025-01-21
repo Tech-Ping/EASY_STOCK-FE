@@ -8,21 +8,22 @@
     align-items: center;
     justify-content: center;
     background-color: #f5f6f8;
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 4px;
+    padding: 5px;
     max-width: 700px;
-    width: 100%;
-    margin: auto;
+    width: 90%;
+    margin: 20px auto;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 0px;
   }
   
   .img-lv-name-stoken {
     align-items: center;
     display: flex;
     width: 80%;
-    padding: 10px;
+    padding: 5px;
     gap: 10px;
+    margin-top: 5px;
   }
   
   .profile-image-container {
@@ -32,7 +33,7 @@
   
   .profile-img {
     border-radius: 50%;
-    width: 70px;
+    width: 60px;
   }
   
   .lv-name-stoken {
@@ -55,11 +56,12 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    width: 300px;
   }
   
   .nickname {
-    font-size: 1.7rem;
-    font-weight: bold;
+    font-size: 1.6rem;
+    font-weight: 600;
     margin: 0;
   }
   
@@ -104,7 +106,7 @@
   .XP-guage {
     background-color: #E3E4E8;
     border-radius: 5px;
-    height: 15px;
+    height: 20px;
     position: relative;
     overflow: hidden;
   }
@@ -131,7 +133,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
     gap:3px;
     font-size: 0.7rem;
     color: #6c757d;
