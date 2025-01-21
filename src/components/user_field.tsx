@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import profile_img from "../images/user_img.png";
-import './style/user_field.css';
+import './styles/user_field.css';
 
 interface UserProfile {
     nickname: string;
