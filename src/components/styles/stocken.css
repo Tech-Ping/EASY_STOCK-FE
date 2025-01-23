@@ -1,0 +1,22 @@
+.token-display {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #00ce93;
+    color: white;
+    border-radius: 15px;
+    font-size: 0.6rem;
+    margin-left: 20px;
+  }
+  .circle{
+    background-color: white;
+    width:0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    margin-right:3px;
+  }
+  .token{
+    margin-top:1px;
+    font-weight: 600;
+  }

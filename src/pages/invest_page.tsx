@@ -8,8 +8,8 @@ const Stock_inv: React.FC = () => {
     return (
         <div className="invest-page-container">
             <Header title="투자하기" backgroundColor="#F5F6F8"/>
-            <UserField/>
             <main className="invest-page-compoent-container">
+            <UserField/>
                 투자하기
             </main>
            <Footer/>

@@ -13,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({ title, showPrevButton = false, backgrou
   const location = useLocation();
 
   const isHome = location.pathname === '/';
+  const isMyPage = location.pathname === '/mypage';
 
   return (
     <header className="header-container"
@@ -28,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ title, showPrevButton = false, backgrou
         </span>
       )}
       <h1 className='header-title'>{title}</h1>
-        {isHome && (
+        {(isHome || isMyPage )&& (
           <button
             className={`notif-button`}
             onClick={() => navigate('/notification')}

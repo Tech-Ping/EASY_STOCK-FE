@@ -8,6 +8,8 @@ import NotificationPage from './pages/notif_page';
 import Home from './pages/home';
 import Stock_inv from './pages/invest_page';
 import UserField from './components/user_field';
+import MyPage from './pages/mypage';
+import Report from './pages/personal_report';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +18,8 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/invest" element={<Stock_inv />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </Router>
   );
