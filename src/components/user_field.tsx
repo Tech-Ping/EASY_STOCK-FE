@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import profile_img from "../images/user_img.png";
+import Stoken from "./stocken";
 import './styles/user_field.css';
 
 interface UserProfile {
@@ -51,10 +52,7 @@ const UserField: React.FC = () => {
                 <h3 className="level-display">{levelMapping[userData.level].display}</h3>
                 <div className="name-stoken">
                     <h2 className="nickname">{userData.nickname}</h2>
-                    <div className="token-display">
-                        <div className="circle"></div>
-                            <span className="token">{userData.tokenBudget} Stoken</span>
-                        </div>
+                    <Stoken stokenValue={3000}/>
                     </div>
                 </div>
             </div>
