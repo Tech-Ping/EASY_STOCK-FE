@@ -10,7 +10,9 @@ const Home: React.FC = () => {
             <Header title="홈"/>
             <main className="home-component-container">
                 <Learn_new/>
+                <div className="userfield-container">
                 <UserField/>
+                </div>
             </main>
            <Footer/>
         </div>
