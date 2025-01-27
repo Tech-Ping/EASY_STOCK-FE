@@ -12,7 +12,16 @@ const Report: React.FC = () => {
                 <div className="top-container">
 
                 </div>
-                <div className="bottom-container"></div>
+                <div className="bottom-container">
+                    <div className="monthly-stock">
+                        <h3 className="title">
+                        이번 달 주요 투자 주실 Top 5
+                        </h3>
+                        <h3 className="title">
+                        총 투자금-실 수익 변동 그래프
+                        </h3>
+                    </div>
+                </div>
             </main>
            <Footer/>
         </div>

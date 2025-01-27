@@ -33,3 +33,11 @@
 .bottom-container{
     
 }
+
+.bottom-container .title {
+    color:#2A2738;
+    font-weight: 600;
+    text-align:left;
+    margin-left: 40px;
+    margin-top: 15px;
+  }
