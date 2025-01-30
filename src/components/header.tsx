@@ -33,6 +33,10 @@ const Header: React.FC<HeaderProps> = ({ title, showPrevButton = false, backgrou
           <button
             className={`notif-button`}
             onClick={() => navigate('/notification')}
+            style={{
+              color: "#2A2738",
+              opacity: isMyPage ? 0.51 : 1,
+            }}  
           >
         <svg 
           width="19" 

@@ -45,8 +45,7 @@
   transition: color 0.3s ease;
 }
 
-.footer-button.active .icon,
-.footer-button.active .label {
+.footer-button.active * {
   color: #00CE93;
 }
 
