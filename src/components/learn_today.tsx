@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import './styles/learn_today_comp.css'
 
 interface UserProfile {
@@ -6,6 +7,7 @@ interface UserProfile {
 }
 
 const Learn_new: React.FC = () => {
+    const navigate = useNavigate();
     const [userData, setUserData] = useState<UserProfile>(
             {
                 nickname: "테크핑"
@@ -27,7 +29,7 @@ const Learn_new: React.FC = () => {
             </div>
             <div className="buttons">
                 <button className="tutorial">튜토리얼</button>
-                <button className="quiz">퀴즈 풀기</button>
+                <button className="quiz" onClick={() => navigate('/quiz')}>퀴즈 풀기</button>
             </div>
         </div>
     );

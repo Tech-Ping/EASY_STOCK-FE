@@ -1,0 +1,10 @@
+.header-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .header-title-container .header-logo {
+    
+  }
+  
