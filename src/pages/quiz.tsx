@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
-import Footer from "../components/footer";
 import stocky from "../images/stocky.png";
 import "../style/quiz.css";
 import WrongAnswerModal from "./quiz_wrong";
@@ -41,10 +40,10 @@ const Quiz: React.FC = () => {
         };
 
     return (
-        <div className="quiz-page-container">
+        <div className={`quiz-page-container ${showWrongModal ? "modal-active" : ""}`}>
             <Header title={
-            <div className="header-title-container">
-            <img src={stocky} alt="logo" className="header-logo" style={{width: 35}}/>
+            <div>
+            <img src={stocky} alt="logo" style={{width: 35}}/>
             <span>스토기</span>
             </div>
         } 
@@ -52,6 +51,7 @@ const Quiz: React.FC = () => {
             <main className="quiz-compoent-container">
             <p className="quiz-number"></p>
             <p className="quiz-question">{quiz.question}</p>
+            <p className="quiz-guide">정답을 클릭하면 바로 다음으로 넘어갑니다.</p>
             <div className="quiz-options">
                 {quiz.options.map((option, index) => (
                     <button
@@ -62,7 +62,6 @@ const Quiz: React.FC = () => {
             </div>
             {showWrongModal && <WrongAnswerModal onClose={() => setShowWrongModal(false)} />}
             </main>
-           <Footer/>
         </div>
     );
 };
