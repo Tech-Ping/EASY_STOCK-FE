@@ -12,23 +12,21 @@
 
 .correct-image {
     width: 280px;
-    margin-top: 250px;
+    margin-top: 30vh;
 }
 
 .correct-title {
     font-size: 35px;
     font-weight: 700;
     color: #000000;
-    margin-top: -15px;
-    margin-bottom: -50px;
+    margin-top: 0vh;
 }
 
 .xp-gained {
     font-size: 25px;
     color: #000000;
     font-weight: 500;
-    margin-top: -15px;
-    margin-bottom: 0px;
+    margin-top: -7vh;
 }
 
 .xp-highlight {
@@ -39,8 +37,8 @@
 .next-level-info {
     font-size: 20px;
     color: #686770;
-    margin-top: -30px;
-    margin-bottom: 105px;
+    margin-top: -4vh;
+    margin-bottom: 13vh;
 }
 
 .home-button {

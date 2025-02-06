@@ -48,7 +48,7 @@ const Quiz: React.FC = () => {
             </div>
         } 
         showPrevButton  backgroundColor="#ffff"/>
-            <main className="quiz-compoent-container">
+            <main className="quiz-component-container">
             <p className="quiz-number"></p>
             <p className="quiz-question">{quiz.question}</p>
             <p className="quiz-guide">정답을 클릭하면 바로 다음으로 넘어갑니다.</p>
