@@ -10,6 +10,7 @@ import Stock_inv from './pages/invest_page';
 import UserField from './components/user_field';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
+import ChatbotButton from './components/chatbotButton';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/report" element={<Report />} />
       </Routes>
+      <ChatbotButton/>
     </Router>
   );
 };

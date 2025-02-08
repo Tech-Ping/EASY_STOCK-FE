@@ -53,4 +53,18 @@
     font-weight: bold;
   }
 
-  
+  .chatbot-move-button {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #00CE93; 
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    z-index: 9999;
+  }

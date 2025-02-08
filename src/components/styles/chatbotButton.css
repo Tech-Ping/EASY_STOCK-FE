@@ -1,0 +1,19 @@
+.chatbot-move-button {
+    position: fixed; 
+    bottom: 12%; 
+    right: 12%; 
+    width: 60px;
+    height: 60px;
+    background-color: #00CE93;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    z-index: 9999; 
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
