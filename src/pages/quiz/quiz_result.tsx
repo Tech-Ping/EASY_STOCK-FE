@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header";
+import Header from "../../components/header";
 import stocky from "../images/stocky.png";
 import stocky_clear from "../images/stocky-clear.png";
 import "../style/quiz_result.css";

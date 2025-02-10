@@ -10,8 +10,8 @@ import Stock_inv from './pages/invest_page';
 import UserField from './components/user_field';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
-import Quiz from './pages/quiz';
-import Quiz_Correct from './pages/quiz_result';
+import Quiz from './pages/quiz/quiz';
+import Quiz_Correct from './pages/quiz/quiz_result';
 
 const App: React.FC = () => {
   return (

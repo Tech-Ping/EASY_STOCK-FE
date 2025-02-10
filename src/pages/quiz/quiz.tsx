@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header";
+import Header from "../../components/header";
 import stocky from "../images/stocky.png";
 import "../style/quiz.css";
 import WrongAnswerModal from "./quiz_wrong";
