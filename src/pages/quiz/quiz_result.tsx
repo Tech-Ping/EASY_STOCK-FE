@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header";
-import stocky from "../images/stocky.png";
-import stocky_clear from "../images/stocky-clear.png";
-import "../style/quiz_result.css";
+import stocky from "../../images/stocky.png";
+import stocky_clear from "../../images/stocky-clear.png";
+import "../../style/quiz_result.css";
 
 const dummyResponse = {
     message: "정답입니다! 30 경험치가 추가되었습니다.",

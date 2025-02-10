@@ -1,6 +1,6 @@
 import React from "react";
-import stocky from "../images/chatting_landing.png"
-import "..//style/quiz_wrong.css";
+import stocky from "../../images/chatting_landing.png"
+import "../../style/quiz_wrong.css";
 
 interface WrongAnswerModalProps {
     onClose: () =>void;
