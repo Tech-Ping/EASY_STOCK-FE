@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center; /* 가로 방향 정렬 */
+  align-items: center; 
   margin: 0 auto; /* 수평 중앙 정렬 */
   text-align: center;
   position: fixed;
@@ -25,4 +25,130 @@
     color: #2a2738;
     width: 100%;
     margin-top: 60px;
+  }
+
+  .stock-page-container {
+    width: 100%;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .tab-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+  }
+  
+  .tab-buttons button {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: #ACB3BF;
+    font-weight: 500;
+  }
+  
+  .tab-buttons button.active {
+    font-weight: 700;
+    color: #2A2738;
+  }
+  
+  .tab-content {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    align-items: center; 
+  }
+  
+  table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 10px auto;
+  }
+  
+  thead th {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #F5F6F8;
+  }
+  
+  .fixed-stock-list {
+    margin-top: 20px;
+    padding: 10px;
+    background: white;
+  }
+
+  .stock-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .price {
+    font-weight: 600;
+  }
+  
+  .change, .change-rate {
+    font-weight: 600;
+  }
+  
+  
+  .up {
+    color: #EB3639;
+  }
+  
+  .down {
+    color: #3681EB;
+  }
+  
+  /* 종목명 클릭 가능하게 */
+  .stock-link {
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 18px;
+    color: black;
+  }
+  
+  .stock-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* 시장명 스타일 */
+  .market-name {
+    font-size: 12px;
+    color: gray;
+  }
+
+  .favorite-buttons {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+  }
+
+  .favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ddd;
+    transition: color 0.3s;
+    margin-right: 10px;
+  }
+  
+  .favorite-btn.active {
+    color: gold; /* 즐겨찾기한 주식은 노란색 */
   }
