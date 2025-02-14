@@ -11,6 +11,9 @@ import UserField from './components/user_field';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
 import Stock_details from './pages/stock_details';
+import Quiz from './pages/quiz/quiz';
+import Quiz_Correct from './pages/quiz/quiz_result';
+
 
 const App: React.FC = () => {
   return (
@@ -22,6 +25,8 @@ const App: React.FC = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/report" element={<Report />} />
         <Route path="/stocks/:stockName" element={<Stock_details/>} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path ="quiz/result" element={<Quiz_Correct />} />
       </Routes>
     </Router>
   );

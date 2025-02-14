@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './styles/header.css';
 
 interface HeaderProps {
-  title: string;
+  title: React.ReactNode;
   showPrevButton?: boolean;
   backgroundColor?: string;
 }
