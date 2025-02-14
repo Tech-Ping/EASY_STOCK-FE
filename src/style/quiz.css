@@ -26,11 +26,14 @@
   }
   
   .quiz-number{
-
+    color: #242424;
+    font-weight: 500;
+    margin: 80px 20px -15px;
+    font-size:18px;
   }
 
   .quiz-question{
-    font-size: 25px;
+    font-size: 28px;
     margin: 120px 20px 20px;
     color: #242424;
     font-weight: 500;

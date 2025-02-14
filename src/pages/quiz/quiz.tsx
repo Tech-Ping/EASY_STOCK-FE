@@ -22,6 +22,10 @@ const Quiz: React.FC = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
     const [showWrongModal, setShowWrongModal] = useState(false);
     const navigate = useNavigate();
+    const quizNumber = quiz.id <= 5 ? quiz.id : (quiz.id - 5);
+
+    const quizLabels = ["첫번째 문제", "두번째 문제", "세번째 문제", "네번째 문제", "다섯번째 문제"];
+    const quizText = quizLabels[quizNumber - 1] || "문제";
 
     /*api연결 전 답안처리 */
     const handleAnswerClick = (index: number) => {
@@ -49,7 +53,7 @@ const Quiz: React.FC = () => {
         } 
         showPrevButton  backgroundColor="#ffff"/>
             <main className="quiz-component-container">
-            <p className="quiz-number"></p>
+            <p className="quiz-number">{quizText}</p>
             <p className="quiz-question">{quiz.question}</p>
             <p className="quiz-guide">정답을 클릭하면 바로 다음으로 넘어갑니다.</p>
             <div className="quiz-options">
