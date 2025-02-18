@@ -29,7 +29,7 @@ const Stock_inv: React.FC = () => {
     return (
         <div className="invest-page-container">
             <Header title="투자하기" backgroundColor="#F5F6F8"/>
-            <main className="invest-page-compoent-container">
+            <main className="invest-page-component-container">
             <UserField/>
             <div className="tab-buttons">
         <button

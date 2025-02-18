@@ -1,0 +1,39 @@
+.chart-container {
+  margin: 20px;
+}
+
+.chart-intervals {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.interval-btn {
+  padding: 5px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #EDEEF2;
+  color: #2A2738;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.interval-btn.active {
+  background-color: #00CE93;
+  color: white;
+}
+  
+  .interval-btn:hover {
+    background-color: #00CE93;
+    color: #fff;
+  }
+  
+  .recharts-cartesian-grid line {
+    stroke: #f3f3f3;
+  }
+  
+  .recharts-legend-item-text {
+    color: #333;
+  }
