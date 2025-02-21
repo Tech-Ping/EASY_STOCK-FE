@@ -180,9 +180,9 @@ const Stock_inv: React.FC = () => {
             </tbody>
           </table>
       </div>
-            </main>
-           <Footer/>
-        </div>
+      </main>
+      <Footer/>
+    </div>
     );
 };
 

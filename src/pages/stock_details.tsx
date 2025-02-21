@@ -8,6 +8,7 @@ import StockDebt from "./stock_tabs/chart";
 import StockInvestors from "./stock_tabs/investors";
 import StockOrders from "./stock_tabs/order";
 import StockChart from "./stock_tabs/chart";
+import "../style/stock_details.css";
 
 interface StockDetail {
     logo: string;
@@ -86,18 +87,21 @@ const dummyStockData = {
       <div className="stock-page-container">
         <Header title="주식 상세" showPrevButton backgroundColor="#F5F6F8" />
         <main className="stock-component-container">
-          <div className="stock-header">
-            <img src={dummyStockData.logo} alt="Stock Logo" className="stock-logo" />
-            <div className="stock-info">
-              <h2 className="stock-name">{dummyStockData.name}</h2>
+          <div className="stock-info">
+            <div className="stock-name">
+              <img src={dummyStockData.logo} className="stock-logo" />
+              {dummyStockData.name}
+            </div>
+            <div className="stock-price-container">
               <h3 className="stock-price">
                 {dummyStockData.currentPrice}{" "}
-                <span className="stock-change" style={{ color: dummyStockData.change.startsWith('-') ? 'blue' : 'red' }}>
-                  {dummyStockData.change} {dummyStockData.changeRate}
+                </h3>
+                <span className="stock-change" style={{ color: dummyStockData.change.startsWith('-') ? '#3681EB' : '#EB3639' }}>
+                {dummyStockData.change.startsWith('-') ? '▼' : '▲'} {dummyStockData.change} {dummyStockData.changeRate}
                 </span>
-              </h3>
-              <p className="stock-extra">{dummyStockData.market} | {dummyStockData.extraInfo}</p>
-            </div>
+              </div>
+              
+              <p className="stock-extra">{dummyStockData.market}  {dummyStockData.extraInfo}</p>
           </div>
   
           {/* 탭 메뉴 */}

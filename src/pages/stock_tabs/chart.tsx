@@ -14,7 +14,7 @@ const intervals = [
     { label: '1년', value: '1month' },
     { label: '한 달', value: '1week' },
     { label: '주간', value: '1day' },
-    { label: '일간', value: '5min' },
+    { label: '일간', value: '15min' },
 ];
 
 const StockChart: React.FC = () => {
@@ -84,7 +84,7 @@ const StockChart: React.FC = () => {
       tooltip: { enabled: true },
       opposite: true,
       labels: {
-        formatter: (value: number) => `${value.toLocaleString()} KRW`
+        formatter: (value: number) => `${value.toLocaleString()}`
       }
     },
     grid: {
