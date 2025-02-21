@@ -14,25 +14,26 @@ const UserField: React.FC = () => {
     //API연결 전 더미데이터
     const [userData, setUserData] = useState<UserProfile> ({
         nickname:"테크핑",
-        level: "ZERO",
+        level: "ONE",
         tokenBudget: 3000,
         xpGuage: 150,
     });
 
-    const levelMapping: { [key: string]: { display: string; number: number } } = {
-        ZERO: { display: "Lv. 0 주식 신생아", number: 0 },
-        ONE: { display: "Lv. 1 주린이", number: 1 },
-        TWO: { display: "Lv. 2 주식 초보자", number: 2 },
-        THREE: { display: "Lv. 3 주식 중급자", number: 3 },
-        FOUR: { display: "Lv. 4 주식 고수", number: 4 },
-        FIVE: { display: "Lv. 5 주식 마니아", number: 5 },
-        SIX: { display: "Lv. 6 주식 마스터", number: 6 },
+    const levelMapping: { [key: string]: { display: string; level: number; minXP: number; maxXP: number } } = {
+        ZERO: { display: "Lv. 0 주식 신생아", level: 0, minXP:0, maxXP:49 },
+        ONE: { display: "Lv. 1 주린이", level: 1, minXP:50, maxXP:199 },
+        TWO: { display: "Lv. 2 주식 초보자", level: 2, minXP:200, maxXP:600 },
+        THREE: { display: "Lv. 3 주식 중급자", level: 3, minXP:601, maxXP:999 },
+        FOUR: { display: "Lv. 4 주식 고수", level: 4, minXP:1000, maxXP:2000 },
+        FIVE: { display: "Lv. 5 주식 마니아", level: 5, minXP:2001, maxXP:3499 },
+        SIX: { display: "Lv. 6 주식 마스터", level: 6, minXP:3500, maxXP:Infinity },
     };
 
-    const currentLevel = levelMapping[userData.level].number;
-    const nextLevel = currentLevel + 1;
+    const currentLevelObj = levelMapping[userData.level] || levelMapping.ZERO;
+    const nextLevelObj = Object.values(levelMapping).find(lvl => lvl.level === currentLevelObj.level + 1);
     //레벨 정책 fix 필요
-    const remainingXp = 400-userData.xpGuage;
+    const remainingXp = nextLevelObj ? nextLevelObj.minXP - userData.xpGuage : 0;
+    const progressPercentage = ((userData.xpGuage - currentLevelObj.minXP) / (currentLevelObj.maxXP - currentLevelObj.minXP)) * 100;
 
     return(
         <div className="user-field-container">
@@ -58,26 +59,25 @@ const UserField: React.FC = () => {
             </div>
             <div className="XP-gauge-container">
                 <div className="levels">
-                    <span>Lv. {currentLevel}</span>
-                    <span className="levels-next">Lv. {nextLevel}</span>
+                    <span>Lv. {currentLevelObj.level}</span>
+                    {nextLevelObj && <span className="levels-next">Lv. {nextLevelObj.level}</span>}
                 </div>
                 <div className="XP-guage">
                     <div className="XP-bar"
                         style={{
-                        width: `${userData.xpGuage/ 400 *100}%`
+                         width: `${progressPercentage}%`
                         }}>
                         <span className="xp-bar-text">{userData.xpGuage}XP</span>
                     </div>
                 </div>
+                {nextLevelObj && (
                 <div className="xp-info-container">
-                    <p className="level-up-info">
-                    {levelMapping[Object.keys(levelMapping).find
-                    (key => levelMapping[key].number === currentLevel + 1) as string]?.display}
-                    (Lv.{nextLevel})</p>
+                <p className="level-up-info">{nextLevelObj.display} (Lv.{nextLevelObj.level})</p>
                 <p className="level-up-action">로 레벨업하기 위해서는, </p>
                 <p className="xp-required">{remainingXp}XP의 경험치</p>
                 <p className="level-up-remark">가 필요해요.</p>
                 </div>
+                )}
             </div>
         </div>
     );
