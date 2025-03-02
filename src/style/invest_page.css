@@ -63,6 +63,21 @@
     align-items: center; 
     margin-left: 20px;
   }
+
+  .owned-stocks{
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  .pending-orders{
+    width: 100%;
+    margin-left: 15px;
+  }
+
+  .trade-history{
+    width: 100%;
+    margin-left: 15px;
+  }
   
   table {
     width: 90%;
