@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {signUp } from "../api/auth";
 import '../style/signup.css';
 
 const Signup: React.FC = () => {
@@ -10,9 +11,10 @@ const Signup: React.FC = () => {
     birthdate: '',
     username: '',
     password: '',
-    confirmPassword: '',
+    passwordCheck: '',
   });
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +32,7 @@ const Signup: React.FC = () => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
 
-    if(id == 'confirmPassword' && formData.password !== value ) {
+    if(id == 'passwordCheck' && formData.password !== value ) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
     } else {
       setConfirmPasswordError('');
@@ -38,12 +40,12 @@ const Signup: React.FC = () => {
   };
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const { nickname, birthdate, username, password, confirmPassword } = formData;
+    const { nickname, birthdate, username, password, passwordCheck } = formData;
 
     // Validation check
-    if (!nickname || !birthdate || !username || !password || !confirmPassword) {
+    if (!nickname || !birthdate || !username || !password || !passwordCheck) {
       alert('모든 정보를 입력해 주세요.');
       return;
     }
@@ -51,6 +53,16 @@ const Signup: React.FC = () => {
     if (!isChecked) {
       alert('개인정보 처리 방침에 동의해 주세요.');
       return;
+    }
+    setIsLoading(true);
+
+    try {
+      const response = await signUp(formData);
+      console.log("회원가입 성공:", response);
+    } catch (error) {
+      console.error("회원가입 오류:", error);
+    } finally {
+      setIsLoading(false);
     }
 
     // If all fields are filled
@@ -129,11 +141,11 @@ const Signup: React.FC = () => {
         <div className="input-group">
           <input
             type="password"
-            id="confirmPassword"
+            id="passwordCheck"
             className={`input-field ${!confirmPasswordEnabled ? 'disabled-field' : ''}`}
             placeholder="비밀번호를 확인해주세요"
             disabled={!confirmPasswordEnabled}
-            value={formData.confirmPassword}
+            value={formData.passwordCheck}
             onChange={handleInputChange}
             style={{
               marginTop: -10,
