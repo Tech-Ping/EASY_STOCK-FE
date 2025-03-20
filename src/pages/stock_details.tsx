@@ -4,7 +4,7 @@ import Footer from "../components/footer";
 import { useParams } from "react-router-dom";
 import StockHeader from "../components/stock_header";
 import StockNews from "./stock_tabs/news";
-import StockDebt from "./stock_tabs/chart";
+import StockDebt from "./stock_tabs/balance";
 import StockInvestors from "./stock_tabs/investors";
 import StockOrders from "./stock_tabs/order";
 import StockChart from "./stock_tabs/chart";
