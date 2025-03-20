@@ -10,6 +10,10 @@ import Stock_inv from './pages/invest_page';
 import UserField from './components/user_field';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
+import Stock_details from './pages/stock_details';
+import Quiz from './pages/quiz/quiz';
+import Quiz_Correct from './pages/quiz/quiz_result';
+
 import ChatbotButton from './components/chatbotButton';
 
 const App: React.FC = () => {
@@ -21,6 +25,9 @@ const App: React.FC = () => {
         <Route path="/invest" element={<Stock_inv />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/stocks/:stockName" element={<Stock_details/>} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path ="quiz/result" element={<Quiz_Correct />} />
       </Routes>
       <ChatbotButton/>
     </Router>

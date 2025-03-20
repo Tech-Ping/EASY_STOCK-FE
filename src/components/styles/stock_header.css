@@ -1,0 +1,51 @@
+.stock-header {
+    background-color: #f5f6f8;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .stock-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .stock-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .stock-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .stock-price-section {
+    margin-top: 8px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .stock-change {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .up {
+    color: #EB3639;
+  }
+  
+  .down {
+    color: #3681EB;
+  }
+  
+  .stock-extra-info {
+    margin-top: 5px;
+    font-size: 14px;
+    color: gray;
+  }
+  
