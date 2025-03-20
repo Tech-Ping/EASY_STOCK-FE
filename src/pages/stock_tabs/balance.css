@@ -1,0 +1,80 @@
+.tab-content {
+    width: 100%;
+}
+/* 전체 컨테이너 스타일 */
+.stock-balance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 16px;
+  }
+  
+  /* 버튼 스타일 */
+  .stock-balance-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    width: 150px;
+    height: 35px;
+  }
+  
+  .stock-balance-button {
+    padding: 4px 16px;
+    border: 1px solid #DDE1E0;
+    border-radius: 4px;
+    background-color: #FFFF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color: #BDBFBF;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .stock-balance-button.active {
+    background-color: #00CE93; /* 초록색 */
+    color: #FFFF;
+  }
+  
+  /* 테이블 스타일 */
+  .stock-balance-table-container {
+    width: 100%;
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  /* 테이블 전체에 가로 스크롤 추가 */
+  .stock-balance-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  /* 테이블 기본 스타일 */
+  .stock-balance-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .stock-balance-table th,
+  .stock-balance-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: right;
+  }
+  
+  .stock-balance-table th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  /* 반응형 (작은 화면에서 버튼 정렬 조정) */
+  @media (max-width: 600px) {
+    .stock-balance-buttons {
+      flex-direction: row;
+    }
+  
+    .stock-balance-button {
+      width: 100%;
+    }
+  }
+  

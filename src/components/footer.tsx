@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
 
       {/* Stock Button */}
       <button
-        className={`footer-button ${isActive('/invest') ? 'active' : ''}`}
+        className={`footer-button ${isActive('/invest')|| isActive('/stocks/:stockName') ? 'active' : ''}`}
         onClick={() => navigate('/invest')}
       >
         <svg
