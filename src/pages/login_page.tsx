@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         console.log("login successful:", response);
 
         // 로그인 후 페이지 이동
-        navigate("/Home");
+        navigate("/home");
       } else {
         alert("아이디나 비밀번호가 옳지 않습니다.");
       }

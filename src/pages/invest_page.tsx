@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import UserField from "../components/user_field";
 import "../style/invest_page.css";
 import { useNavigate } from "react-router-dom";
+import { getUserProfile } from "../api/auth";
 
 const Stock_inv: React.FC = () => {
+  const [userInfo, setUserInfo] = useState<null | {
+          profileImage: number;
+          level: string;
+          tokenBudget: number;
+          nickname: string;
+          xpGauge: number;
+        }>(null);
+        useEffect(() => {
+                const fetchProfile = async () => {
+                  try {
+                    const res = await getUserProfile();
+                    if (res.isSuccess) {
+                      setUserInfo(res.result);
+                    } else {
+                      console.error("프로필 불러오기 실패:", res.message);
+                    }
+                  } catch (err) {
+                    console.error("API 에러:", err);
+                  }
+                };
+            
+                fetchProfile();
+              }, []);
+              
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("owned");
     const [favorites, setFavorites] = useState<string[]>([]); //관심주식
@@ -30,7 +55,7 @@ const Stock_inv: React.FC = () => {
         <div className="invest-page-container">
             <Header title="투자하기" backgroundColor="#F5F6F8"/>
             <main className="invest-page-component-container">
-            <UserField/>
+            <UserField userInfo={userInfo} />
             <div className="tab-buttons">
         <button
           className={activeTab === "owned" ? "active" : ""}

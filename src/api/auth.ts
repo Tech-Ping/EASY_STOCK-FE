@@ -1,14 +1,15 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL; // .env에 설정한 백엔드 도메인
+const API_BASE_URL = process.env.REACT_APP_API_URL; 
 
 // 회원가입 API 요청 함수
 export const signUp = async (formData: {
   nickname: string;
-  birthdate: string;
+  birthDate: string;
   username: string;
   password: string;
   passwordCheck: string;
+  isAgreed : boolean;
 }) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/auth/join`, formData, {
@@ -16,7 +17,7 @@ export const signUp = async (formData: {
         "Content-Type": "application/json",
       },
     });
-
+    
     console.log("authentication successful:", response.data);
     return response.data;
   } catch (error: any) {
@@ -39,4 +40,13 @@ export const login = async (formData: { username: string; password: string }) =>
       console.error("login failed:", error.response?.data || error.message);
       throw error;
     }
+  };
+
+  export const getUserProfile = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/my/profile`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,  // 토큰 필요 시
+      },
+    });
+    return response.data;
   };
