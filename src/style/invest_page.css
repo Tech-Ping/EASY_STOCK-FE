@@ -121,12 +121,19 @@
   }
   .price {
     font-weight: 600;
+    font-size: 18px;
   }
   
   .change, .change-rate {
     font-weight: 600;
+    font-size: 18px;
   }
-  
+  /* invest_page.css 등 스타일 파일에 추가 */
+.change {
+  white-space: nowrap; 
+  text-align: left;
+}
+
   
   .up {
     color: #EB3639;
@@ -142,6 +149,7 @@
     font-weight: 400;
     font-size: 18px;
     color: black;
+    white-space: nowrap; 
   }
   
   .stock-link:hover {
@@ -168,8 +176,8 @@
     font-size: 20px;
     color: #ddd;
     transition: color 0.3s;
-    margin-right: 10px;
-    margin-bottom: 35px;
+    margin-left: -5px;
+    margin-bottom: 10px;
   }
   
   .favorite-btn.active {

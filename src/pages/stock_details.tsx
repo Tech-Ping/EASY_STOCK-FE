@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import StockHeader from "../components/stock_header";
 import StockNews from "./stock_tabs/news";
 import StockDebt from "./stock_tabs/balance";
@@ -9,34 +9,32 @@ import StockInvestors from "./stock_tabs/investors";
 import StockOrders from "./stock_tabs/order";
 import StockChart from "./stock_tabs/chart";
 import "../style/stock_details.css";
+import axios from "axios";
+import { getStockDetail } from "../api/stocks";
+
 
 interface StockDetail {
-    logo: string;
-    name: string;
-    currentPrice: string;
-    change: string;
-    changeRate: string;
-    market: string;
-    extraInfo: string;
-  }
+  id: number;
+  stockCode: string;
+  stockName: string;
+  stockInfo: string;
+  imgUrl: string;
+  stockIndustry: string;
+  stckPrpr: number;
+  prdyVrss: number;
+  prdyCtrt: number;
+  acmlTrPbmn: number;
+  acmlVol: number;
+}
 
-const dummyStockData = {
-    logo: "../images/stocky.png",
-    name: "삼성전자",
-    currentPrice: "213,500",
-    change: "-1,500",
-    changeRate: "0.70%",
-    market: "KOSPI",
-    extraInfo: "중3D 담140 신10개",
-  };
-
-  
   const Stock_details: React.FC = () => {
     const { stockName } = useParams<{ stockName: string }>();
-    const [stockData, setStockData] = useState<StockDetail | null>(dummyStockData);
+    const [stockData, setStockData] = useState<StockDetail>();
     const [activeTab, setActiveTab] = useState("주문")
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const location = useLocation();
+    const { stockId } = useParams<{ stockId: string }>();
 
     const renderTabContent = () => {
       switch (activeTab) {
@@ -53,58 +51,51 @@ const dummyStockData = {
       }
     };
   
-  /*
     useEffect(() => {
-      setLoading(true);
-  
-      // Simulate API call with a delay
-      setTimeout(() => {
-        if (!stockName) {
-          console.error("Stock name is undefined");
+      const fetchStock = async () => {
+        try {
+          const res = await getStockDetail(stockId!);
+          if (res.isSuccess) {
+            setStockData(res.result);
+          } else {
+            console.error("API 오류:", res.message);
+          }
+        } catch (err) {
+          console.error("데이터 불러오기 실패:", err);
+        } finally {
           setLoading(false);
-          return;
         }
-        
-        fetch()
-          .then((response) => {
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.json();
-          })
-          .then((data) => {
-            setStockData(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching stock details:", error);
-            setStockData(dummyStockData); // Use dummy data on error
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }, 1500); // Simulate a delay of 1.5 seconds
-    }, [stockName]);
-  */
+      };
+    
+      if (stockId) fetchStock();
+    }, [stockId]);
+
+    if (loading) return <div>불러오는 중...</div>;
+    if (!stockData) return <div>주식 정보를 불러올 수 없습니다.</div>;
+
+
     return (
       <div className="stock-page-container">
         <Header title="주식 상세" showPrevButton backgroundColor="#F5F6F8" />
         <main className="stock-component-container">
           <div className="stock-info">
             <div className="stock-name">
-              <img src={dummyStockData.logo} className="stock-logo" />
-              {dummyStockData.name}
+              <img src={stockData.imgUrl} className="stock-logo" />
+              {stockData.stockName}
             </div>
             <div className="stock-price-container">
-              <h3 className="stock-price">
-                {dummyStockData.currentPrice}{" "}
-                </h3>
-                <span className="stock-change" style={{ color: dummyStockData.change.startsWith('-') ? '#3681EB' : '#EB3639' }}>
-                {dummyStockData.change.startsWith('-') ? '▼' : '▲'} {dummyStockData.change} {dummyStockData.changeRate}
-                </span>
-              </div>
-              
-              <p className="stock-extra">{dummyStockData.market}  {dummyStockData.extraInfo}</p>
+              <h3 className="stock-price">{stockData.stckPrpr.toLocaleString()}</h3>
+              <span
+                className="stock-change"
+                style={{ color: stockData.prdyVrss < 0 ? '#3681EB' : '#EB3639' }}
+              >
+                {stockData.prdyVrss < 0 ? '▼' : '▲'} {Math.abs(stockData.prdyVrss).toLocaleString()} {stockData.prdyCtrt}%
+              </span>
+            </div>
+            <p className="stock-extra">{stockData.stockIndustry} {stockData.stockInfo}</p>
           </div>
-  
-          {/* 탭 메뉴 */}
+    
+          {/* 탭 영역 */}
           <div className="tab-buttons">
             {["주문", "차트", "투자자", "뉴스", "기업채무"].map((tab) => (
               <button
@@ -116,14 +107,11 @@ const dummyStockData = {
               </button>
             ))}
           </div>
-  
-          {/* 탭별 콘텐츠 렌더링 */}
           <div className="tab-content">{renderTabContent()}</div>
         </main>
         <Footer />
       </div>
     );
-  };
+  }
   
   export default Stock_details;
-  

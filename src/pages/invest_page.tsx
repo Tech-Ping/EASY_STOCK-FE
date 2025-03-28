@@ -5,6 +5,8 @@ import UserField from "../components/user_field";
 import "../style/invest_page.css";
 import { useNavigate } from "react-router-dom";
 import { getUserProfile } from "../api/auth";
+import { getStockList } from "../api/stocks"; 
+import { setBookmark } from "../api/stocks";
 
 const Stock_inv: React.FC = () => {
   const [userInfo, setUserInfo] = useState<null | {
@@ -27,29 +29,48 @@ const Stock_inv: React.FC = () => {
                     console.error("API 에러:", err);
                   }
                 };
+                const fetchStocks = async () => {
+                  try {
+                    const res = await getStockList();
+                    if (res.isSuccess) {
+                      setStockList(res.result);
+                    } else {
+                      console.error("주식 목록 불러오기 실패:", res.message);
+                    }
+                  } catch (err) {
+                    console.error("주식 API 에러:", err);
+                  }
+                };
             
                 fetchProfile();
+                fetchStocks();
               }, []);
               
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("owned");
+    const [stockList, setStockList] = useState<any[]>([])
     const [favorites, setFavorites] = useState<string[]>([]); //관심주식
 
-    const toggleFavorite = (stockName: string) => {
-      setFavorites((prevFavorites) =>
-        prevFavorites.includes(stockName)
-          ? prevFavorites.filter((name) => name !== stockName)
-          : [...prevFavorites, stockName] 
-      );
+    const handleBookmarkToggle = async (stockId: number) => {
+      try {
+        const res = await setBookmark(stockId);
+        console.log("북마크 응답:", res.result);
+        if (res.isSuccess) {
+          // 변경된 bookmarked 상태 반영
+          setStockList((prevList) =>
+            prevList.map((stock) =>
+              stock.id === stockId ? { ...stock, bookmarked: !stock.bookmarked } : stock
+            )
+          );
+        } else {
+          console.error("북마크 토글 실패:", res.message);
+        }
+      } catch (err) {
+        console.error("북마크 API 오류:", err);
+      }
     };
 
-    /* dummy data*/
-    const stockData = [
-      { name: "LG에너지솔루션", price: "412,500", change: "+5,000", rate: "1.23%", market: "KOSPI" },
-      { name: "현대차", price: "213,500", change: "-1,500", rate: "0.70%", market: "KOSPI" },
-      { name: "SK하이닉스", price: "182,200", change: "+4,100", rate: "2.20%", market: "KOSPI" },
-      { name: "비에이치아이", price: "11,800", change: "-470", rate: "4.15%", market: "KOSDAQ" },
-    ];
+   
 
     return (
         <div className="invest-page-container">
@@ -158,20 +179,9 @@ const Stock_inv: React.FC = () => {
         )}
         </div>
         <div className="fixed-stock-list">
-            {/* 관심 주식 버튼 */}
-            <div className="favorite-buttons">
-              {stockData.map((stock) => (
-                <button
-                  key={stock.name}
-                  className={`favorite-btn ${favorites.includes(stock.name) ? "active" : ""}`}
-                  onClick={() => toggleFavorite(stock.name)}
-                >
-                ★
-                </button>
-                ))}
-          </div>
 
-          {/* Stock Table */}
+        {/* Stock Table */}
+        <div style={{ overflowX: "auto" }}>
           <table>
             <thead>
               <tr>
@@ -182,29 +192,46 @@ const Stock_inv: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {stockData.map((stock) => {
-              const isPositive = stock.change.startsWith("+");
-              return (
-              <tr key={stock.name}>
-                <td>
-                  <a href="#" onClick={() => navigate(`/stocks/${stock.name}`)} className="stock-link">
-                  {stock.name}
-                  </a>
-                  <div className="market-name">{stock.market}</div>
-                </td>
-                <td className={`price ${isPositive ? "up" : "down"}`}>{stock.price}</td>
-                <td className={`change ${isPositive ? "up" : "down"}`}>
-                  {isPositive ? "▲" : "▼"} {stock.change.replace("+", "").replace("-", "")}
-                </td>
-                <td className={`change-rate ${isPositive ? "up" : "down"}`}>
-                  {stock.rate}
-                </td>
-              </tr>
-              );
-              })}
-            </tbody>
-          </table>
-      </div>
+            {stockList.map((stock) => {
+    const isPositive = stock.prdyVrss >= 0;
+    return (
+      <tr key={stock.id}>
+        <td>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <button
+            className={`favorite-btn ${stock.bookmarked ? "active" : ""}`}
+            onClick={() => handleBookmarkToggle(stock.id)}
+            >
+              ★
+            </button>
+            <div>
+              <a
+                href="#"
+                onClick={() => navigate(`/stocks/${stock.id}`)}
+                className="stock-link"
+              >
+                {stock.stockName}
+              </a>
+              <div className="market-name">{stock.stockIndustry}</div>
+            </div>
+          </div>
+        </td>
+        <td className={`price ${isPositive ? "up" : "down"}`}>
+          {stock.stckPrpr.toLocaleString()}
+        </td>
+        <td className={`change ${isPositive ? "up" : "down"}`}>
+          {isPositive ? "▲" : "▼"} {Math.abs(stock.prdyVrss).toLocaleString()}
+        </td>
+        <td className={`change-rate ${isPositive ? "up" : "down"}`}>
+          {stock.prdyCtrt}%
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+</table>
+  </div>
+    </div>
       </main>
       <Footer/>
     </div>

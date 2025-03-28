@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL; 
 
@@ -35,18 +36,26 @@ export const login = async (formData: { username: string; password: string }) =>
       });
   
       console.log("login successful:", response.data);
-      return response.data;
-    } catch (error: any) {
-      console.error("login failed:", error.response?.data || error.message);
-      throw error;
-    }
-  };
+
+    const accessToken = response.data.result.accessToken;
+    localStorage.setItem("accessToken", accessToken);
+
+    return response.data;
+  } catch (error: any) {
+    console.error("login failed:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
   export const getUserProfile = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/my/profile`, {
+    const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/api/my/profile`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,  // 토큰 필요 시
       },
     });
     return response.data;
+  };
+
+  export const registerFcmToken = async (fcmToken: string) => {
+    return await axiosInstance.post("/api/my/fcm", { fcmToken });
   };
