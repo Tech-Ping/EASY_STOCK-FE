@@ -1,0 +1,159 @@
+/* 레이아웃 */
+.order-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    padding: 10px;
+    height: 100%;
+  }
+  @media (min-width: 680px) {
+    .order-container {
+      gap: 180px;
+    }
+  }
+  
+  /* 호가표 스타일 */
+  .order-book {
+    width: 120px;
+    padding: 0px;
+    margin-bottom: 5px;
+  }
+  
+  .order-book table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+  }
+  .order-book th{
+    text-align: center;
+    font-weight: 400;
+    background-color: white;
+  }
+  .order-book td {
+    padding: 12px;
+    text-align: right;
+    font-weight: 600;
+  }
+  
+  .sell-row td {
+    color: #3681EB;
+  }
+  
+  .buy-row td {
+    color: #EB3639;
+  }
+  
+  .highlight-row td {
+    background-color: rgba(62, 182, 148, 0.26);
+    font-weight: bold;
+  }
+  
+  /* 주문 패널 스타일 */
+  .order-panel {
+    width: 200px;
+    height: 100%;
+    border-left: none;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stock-title {
+    font-size: 17px;
+    font-weight: normal;
+    margin-top: 5px;
+    margin-bottom: 65px;
+    align-self: flex-start;
+  }
+  .stock-title strong {
+    font-weight: 600;
+  }
+  
+  /* 매도/매수 버튼 */
+  .order-tabs {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .order-tabs button {
+    width: 82px;
+    height: 36px;
+    padding: 6px 0;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #f0f0f0;
+  }
+  
+  .order-tabs .active {
+    background-color: #00CE93;
+    color: white;
+  }
+  
+  .order-tabs .inactive {
+    background-color: #e0e0e0;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  /* 수량 선택 */
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 180px;
+    height: 40px;
+    border-color: #DDE1E0;
+  }
+  
+  .highlight-quantity {
+    color: #00CE93;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  
+  .quantity-selector button {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+    background-color: white;
+    border-radius: 4px;
+    border-color: #DDE1E0;
+  }
+  
+  /* 기타 텍스트 */
+  .available-info {
+    color: #888;
+    font-size: 15px;
+    align-self: flex-start;
+    margin-top: -5px;
+    margin-bottom: 65px;
+  }
+  .highlight-owned {
+    color: #00CE93;
+  }
+  
+  .total-price {
+    font-size:20px;
+    font-weight: 400;
+  }
+  .total-price strong {
+    font-weight: 600;
+    color: #00CE93;
+  }
+  
+  /* 매도 버튼 */
+  .submit-order-btn {
+    margin-top: 10px;
+    background-color: #00CE93;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
