@@ -16,3 +16,15 @@ export const postTrade = async (data: {
   
     return response.data;
   };
+
+  
+  export const getTradeList = async (status: string)=> {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/trades`, {
+      params: { status },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    return response.data;
+  };
+

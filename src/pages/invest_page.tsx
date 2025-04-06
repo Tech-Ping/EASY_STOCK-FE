@@ -5,10 +5,26 @@ import UserField from "../components/user_field";
 import "../style/invest_page.css";
 import { useNavigate } from "react-router-dom";
 import { getUserProfile } from "../api/auth";
-import { getStockList } from "../api/stocks"; 
+import { getInventory, getStockList } from "../api/stocks"; 
 import { setBookmark } from "../api/stocks";
+import { getTradeList } from "../api/order";
+import { getBookmarkStockStatus } from "../api/mypage";
+
+interface InventoryItem {
+  memberId: number;
+  stockId: number;
+  stockName: string;
+  quantity: number;
+  purchasePrice: number;
+}
 
 const Stock_inv: React.FC = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("owned");
+  const [stockList, setStockList] = useState<any[]>([])
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [completedTrades, setCompletedTrades] = useState<any[]>([]);
+  const [pendingTrades, setPendingTrades] = useState<any[]>([]);
   const [userInfo, setUserInfo] = useState<null | {
           profileImage: number;
           level: string;
@@ -16,46 +32,66 @@ const Stock_inv: React.FC = () => {
           nickname: string;
           xpGauge: number;
         }>(null);
-        useEffect(() => {
-                const fetchProfile = async () => {
-                  try {
-                    const res = await getUserProfile();
-                    if (res.isSuccess) {
-                      setUserInfo(res.result);
-                    } else {
-                      console.error("프로필 불러오기 실패:", res.message);
-                    }
-                  } catch (err) {
-                    console.error("API 에러:", err);
-                  }
-                };
-                const fetchStocks = async () => {
-                  try {
-                    const res = await getStockList();
-                    if (res.isSuccess) {
-                      setStockList(res.result);
-                    } else {
-                      console.error("주식 목록 불러오기 실패:", res.message);
-                    }
-                  } catch (err) {
-                    console.error("주식 API 에러:", err);
-                  }
-                };
-            
-                fetchProfile();
-                fetchStocks();
-              }, []);
+  const [inventoryList, setInventoryList] = useState<InventoryItem[]>([]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await getUserProfile();
+        if (res.isSuccess) {
+          setUserInfo(res.result);
+        } else {
+          console.error("프로필 불러오기 실패:", res.message);
+        }
+      } catch (err) {
+        console.error("API 에러:", err);
+      }
+    };
+
+    const fetchAll = async () => {
+      try {
+        const [
+          stockRes,
+          inventoryRes,
+          completedRes,
+          pendingRes,
+          bookmarkRes
+        ] = await Promise.all([
+          getStockList(),
+          getInventory(),
+          getTradeList("COMPLETED"),
+          getTradeList("PENDING"),
+          getBookmarkStockStatus()
+        ]);
+
+        if (inventoryRes.isSuccess) setInventoryList(inventoryRes.result);
+        if (completedRes.isSuccess) setCompletedTrades(completedRes.result);
+        if (pendingRes.isSuccess) setPendingTrades(pendingRes.result);
+
+        if (stockRes.isSuccess && bookmarkRes.isSuccess) {
+          const bookmarkedNames = bookmarkRes.result.map((item: any) => item.stockName);
+          const merged = stockRes.result.map((stock: any) => ({
+            ...stock,
+            bookmarked: bookmarkedNames.includes(stock.stockName)
+          }));
+          setStockList(merged);
+        }
+      } catch (err) {
+        console.error("전체 데이터 불러오기 실패:", err);
+      }
+    };
+    fetchProfile();
+    fetchAll();
+  }, []);
               
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("owned");
-    const [stockList, setStockList] = useState<any[]>([])
-    const [favorites, setFavorites] = useState<string[]>([]); //관심주식
+
 
     const handleBookmarkToggle = async (stockId: number) => {
       try {
         const res = await setBookmark(stockId);
         console.log("북마크 응답:", res.result);
         if (res.isSuccess) {
+          const isNowBookmarked = res.result.bookmarked;
           // 변경된 bookmarked 상태 반영
           setStockList((prevList) =>
             prevList.map((stock) =>
@@ -111,17 +147,28 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>2<br />20,000</td>
-                  <td>10,234<br />10,000</td>
-                </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>2<br />20,000</td>
-                  <td>25,000<br />10,000</td>
-                </tr>
-              </tbody>
+  {inventoryList.map((inv) => {
+    const matchedStock = stockList.find((stock) => stock.id === inv.stockId);
+    const currentPrice = matchedStock?.stckPrpr || 0;
+    const evaluation = currentPrice * inv.quantity;
+
+    return (
+      <tr key={inv.stockId}>
+        <td>{inv.stockName}</td>
+        <td>
+          {inv.quantity.toLocaleString()}
+          <br />
+          {evaluation.toLocaleString()}
+        </td>
+        <td>
+          {inv.purchasePrice.toLocaleString()}
+          <br />
+          {currentPrice.toLocaleString()}
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
             </table>
           </div>
         )}
@@ -137,18 +184,19 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>매도</td>
-                  <td>10,000<br />2</td>
+              {pendingTrades.map((trade) => (
+                <tr key={trade.tradeId}>
+                  <td>{trade.stockName}</td>
+                  <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
+                  <td>
+                    {trade.price.toLocaleString()}
+                    <br />
+                    {trade.quantity}
+                  </td>
                 </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>매수</td>
-                  <td>25,000<br />3</td>
-                </tr>
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
           </div>
         )}
 
@@ -163,17 +211,18 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>매도</td>
-                  <td>10,000<br />2</td>
+              {completedTrades.map((trade) => (
+                <tr key={trade.tradeId}>
+                  <td>{trade.stockName}</td>
+                  <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
+                  <td>
+                    {trade.price.toLocaleString()}
+                    <br />
+                    {trade.quantity}
+                  </td>
                 </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>매수</td>
-                  <td>25,000<br />3</td>
-                </tr>
-              </tbody>
+              ))}
+            </tbody>
             </table>
           </div>
         )}
@@ -239,5 +288,3 @@ const Stock_inv: React.FC = () => {
 };
 
 export default Stock_inv;
-
-

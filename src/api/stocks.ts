@@ -6,6 +6,11 @@ export const getStockList = async () => {
   return response.data;
 };
 
+export const getInventory = async () => {
+  const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/api/inventories`);
+  return response.data;
+};
+
 export const getStockDetail = async (stockId: string) => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/${stockId}`, {
       headers: {
