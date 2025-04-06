@@ -21,6 +21,7 @@ interface InventoryItem {
 const Stock_inv: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("owned");
+  const [showAll, setShowAll] = useState(false);
   const [stockList, setStockList] = useState<any[]>([])
   const [favorites, setFavorites] = useState<string[]>([]);
   const [completedTrades, setCompletedTrades] = useState<any[]>([]);
@@ -84,7 +85,9 @@ const Stock_inv: React.FC = () => {
     fetchAll();
   }, []);
               
-
+  const visibleInven = showAll ? inventoryList : inventoryList.slice(0, 3);
+  const visiblePending = showAll ? pendingTrades : pendingTrades.slice(0, 3);
+  const visibleComplete = showAll ? completedTrades : completedTrades.slice(0, 3);
 
     const handleBookmarkToggle = async (stockId: number) => {
       try {
@@ -147,7 +150,7 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-  {inventoryList.map((inv) => {
+  {visibleInven.map((inv) => {
     const matchedStock = stockList.find((stock) => stock.id === inv.stockId);
     const currentPrice = matchedStock?.stckPrpr || 0;
     const evaluation = currentPrice * inv.quantity;
@@ -170,6 +173,14 @@ const Stock_inv: React.FC = () => {
   })}
 </tbody>
             </table>
+            {inventoryList.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
           </div>
         )}
 
@@ -184,7 +195,7 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-              {pendingTrades.map((trade) => (
+              {visiblePending.map((trade) => (
                 <tr key={trade.tradeId}>
                   <td>{trade.stockName}</td>
                   <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
@@ -197,6 +208,14 @@ const Stock_inv: React.FC = () => {
               ))}
             </tbody>
           </table>
+          {pendingTrades.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
           </div>
         )}
 
@@ -211,8 +230,8 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-              {completedTrades.map((trade) => (
-                <tr key={trade.tradeId}>
+              {visibleComplete.map((trade) => (
+          <tr key={trade.tradeId}>
                   <td>{trade.stockName}</td>
                   <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
                   <td>
@@ -224,7 +243,15 @@ const Stock_inv: React.FC = () => {
               ))}
             </tbody>
             </table>
-          </div>
+            {completedTrades.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
+  </div>
         )}
         </div>
         <div className="fixed-stock-list">
@@ -255,7 +282,6 @@ const Stock_inv: React.FC = () => {
             </button>
             <div>
               <a
-                href="#"
                 onClick={() => navigate(`/stocks/${stock.id}`)}
                 className="stock-link"
               >

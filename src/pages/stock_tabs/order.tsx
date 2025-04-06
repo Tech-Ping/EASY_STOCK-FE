@@ -3,17 +3,24 @@ import '../stock_tabs/order.css';
 import { useParams } from 'react-router-dom';
 import { getStockQuotes } from '../../api/stocks';
 import { postTrade } from '../../api/order';
+import { getInventory } from '../../api/stocks';
 
 const StockOrders: React.FC = () => {
   const { stockId } = useParams<{ stockId: string }>();
   const [orderType, setOrderType] = useState<'BUY' | 'SELL'>('SELL');
   const [quantity, setQuantity] = useState(3);
+  const [availableShares, setAvailableShares] = useState<number>(0);
   const [buyData, setBuyData] = useState<any>(null);
   const [sellData, setSellData] = useState<any>(null);
+  const [price, setPrice] = useState<number>(0);
   const orderLabel = orderType === 'SELL' ? '매도' : '매수';
 
-  //이거 나중에 사용자 api에서 정보 가져오기기
-  const availableShares = 5;
+
+  useEffect(() => {
+    if (buyData?.marketPrice) {
+      setPrice(parseInt(buyData.marketPrice));
+    }
+  }, [buyData]);
 
   useEffect(() => {
     if (!stockId) return;
@@ -24,14 +31,30 @@ const StockOrders: React.FC = () => {
           getStockQuotes(stockId, 'BUY'),
           getStockQuotes(stockId, 'SELL'),
         ]);
+        
         setBuyData(buy);
         setSellData(sell);
       } catch (err) {
         console.error("호가 정보 요청 실패:", err);
       }
     };
+    const fetchInventory = async () => {
+      try {
+        const res = await getInventory();
+        if (res.isSuccess && res.result) {
+          const matchingStock = res.result.find((item: any) => item.stockId === parseInt(stockId!));
+          if (matchingStock) {
+            setAvailableShares(matchingStock.quantity);
+          }
+        }
+      } catch (err) {
+        console.error("보유 주식 정보 불러오기 실패", err);
+      }
+    };
 
     fetchQuotes();
+    fetchInventory();
+    
   }, [stockId]);
 
   if (!buyData || !sellData) return <div>호가 정보를 불러오는 중...</div>;
@@ -49,18 +72,27 @@ const StockOrders: React.FC = () => {
     quantity: parseInt(buyData[`quantity${i + 1}`]),
   }));
 
-  const totalAmount = quantity * currentPrice;
+  const totalAmount = quantity * price;
 
   const handleQuantityChange = (delta: number) => {
     const newQuantity = quantity + delta;
     if (newQuantity >= 1 && newQuantity <= 100) setQuantity(newQuantity);
   };
+  const handlePriceChange = (delta: number) => {
+    const newPrice = price + delta;
+    if (newPrice >= 0) setPrice(newPrice);
+  };
+  
 
   const handleOrder = async () => {
+    if (orderType === 'SELL' && quantity > availableShares) {
+      alert(`보유 수량보다 많은 수량을 매도할 수 없습니다.\n현재 보유: ${availableShares}주`);
+      return;
+    }
     const requestBody = {
       type: orderType,
       quantity,
-      tradePrice: totalAmount,
+      tradePrice: price,
       currentPrice,
       stockId: parseInt(stockId!)
     };
@@ -120,6 +152,22 @@ const StockOrders: React.FC = () => {
         <span className="highlight-quantity">{quantity}주</span>
         <button onClick={() => handleQuantityChange(1)}>+</button>
       </div>
+      <div className="price-input-container">
+  <label htmlFor="price-input">주문가 (₩):</label>
+  <div className="price-adjust">
+    <button onClick={() => handlePriceChange(-100)}>-</button>
+    <input
+      type="number"
+      id="price-input"
+      value={price}
+      onChange={(e) => setPrice(Number(e.target.value))}
+      className="price-input"
+      min={0}
+    />
+    <button onClick={() => handlePriceChange(100)}>+</button>
+  </div>
+</div>
+
 
       <p className="available-info">
         현재 <span className="highlight-owned">{availableShares}주 보유중</span>

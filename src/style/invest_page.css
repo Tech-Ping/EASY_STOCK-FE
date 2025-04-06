@@ -103,6 +103,16 @@
     background-color: #F5F6F8;
   }
   
+  .toggle-history-btn {
+    margin-top: 10px;
+    background-color: #00ce93;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
   .fixed-stock-list {
     margin-top: 20px;
     padding: 10px;
