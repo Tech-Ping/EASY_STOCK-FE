@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import UserField from "../components/user_field";
@@ -21,6 +21,7 @@ interface InventoryItem {
 const Stock_inv: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("owned");
+  const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
   const [stockList, setStockList] = useState<any[]>([])
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -51,6 +52,7 @@ const Stock_inv: React.FC = () => {
 
     const fetchAll = async () => {
       try {
+        setLoading(true);
         const [
           stockRes,
           inventoryRes,
@@ -79,15 +81,24 @@ const Stock_inv: React.FC = () => {
         }
       } catch (err) {
         console.error("전체 데이터 불러오기 실패:", err);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchProfile();
     fetchAll();
   }, []);
+
+  const stockMap = useMemo(() => {
+    const map = new Map();
+    stockList.forEach((s) => map.set(s.id, s));
+    return map;
+  }, [stockList]);
               
-  const visibleInven = showAll ? inventoryList : inventoryList.slice(0, 3);
-  const visiblePending = showAll ? pendingTrades : pendingTrades.slice(0, 3);
-  const visibleComplete = showAll ? completedTrades : completedTrades.slice(0, 3);
+  const visibleInven = useMemo(() => showAll ? inventoryList : inventoryList.slice(0, 3), [showAll, inventoryList]);
+  const visiblePending = useMemo(() => showAll ? pendingTrades : pendingTrades.slice(0, 3), [showAll, pendingTrades]);
+  const visibleComplete = useMemo(() => showAll ? completedTrades : completedTrades.slice(0, 3), [showAll, completedTrades]);
 
     const handleBookmarkToggle = async (stockId: number) => {
       try {
@@ -109,7 +120,14 @@ const Stock_inv: React.FC = () => {
       }
     };
 
-   
+    if (loading) {
+      return (
+        <div className="loading-container">
+          <div className="spinner" />
+          <p>데이터를 불러오는 중입니다...</p>
+        </div>
+      );
+    }
 
     return (
         <div className="invest-page-container">
@@ -151,7 +169,10 @@ const Stock_inv: React.FC = () => {
               </thead>
               <tbody>
   {visibleInven.map((inv) => {
-    const matchedStock = stockList.find((stock) => stock.id === inv.stockId);
+    
+    
+    const matchedStock = stockMap.get(inv.stockId);
+    
     const currentPrice = matchedStock?.stckPrpr || 0;
     const evaluation = currentPrice * inv.quantity;
 
