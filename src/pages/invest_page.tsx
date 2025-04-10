@@ -1,36 +1,139 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import UserField from "../components/user_field";
 import "../style/invest_page.css";
 import { useNavigate } from "react-router-dom";
+import { getUserProfile } from "../api/auth";
+import { getInventory, getStockList } from "../api/stocks"; 
+import { setBookmark } from "../api/stocks";
+import { getTradeList } from "../api/order";
+import { getBookmarkStockStatus } from "../api/mypage";
+
+interface InventoryItem {
+  memberId: number;
+  stockId: number;
+  stockName: string;
+  quantity: number;
+  purchasePrice: number;
+}
 
 const Stock_inv: React.FC = () => {
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("owned");
-    const [favorites, setFavorites] = useState<string[]>([]); //관심주식
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("owned");
+  const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const [stockList, setStockList] = useState<any[]>([])
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [completedTrades, setCompletedTrades] = useState<any[]>([]);
+  const [pendingTrades, setPendingTrades] = useState<any[]>([]);
+  const [userInfo, setUserInfo] = useState<null | {
+          profileImage: number;
+          level: string;
+          tokenBudget: number;
+          nickname: string;
+          xpGauge: number;
+        }>(null);
+  const [inventoryList, setInventoryList] = useState<InventoryItem[]>([]);
 
-    const toggleFavorite = (stockName: string) => {
-      setFavorites((prevFavorites) =>
-        prevFavorites.includes(stockName)
-          ? prevFavorites.filter((name) => name !== stockName)
-          : [...prevFavorites, stockName] 
-      );
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await getUserProfile();
+        if (res.isSuccess) {
+          setUserInfo(res.result);
+        } else {
+          console.error("프로필 불러오기 실패:", res.message);
+        }
+      } catch (err) {
+        console.error("API 에러:", err);
+      }
     };
 
-    /* dummy data*/
-    const stockData = [
-      { name: "LG에너지솔루션", price: "412,500", change: "+5,000", rate: "1.23%", market: "KOSPI" },
-      { name: "현대차", price: "213,500", change: "-1,500", rate: "0.70%", market: "KOSPI" },
-      { name: "SK하이닉스", price: "182,200", change: "+4,100", rate: "2.20%", market: "KOSPI" },
-      { name: "비에이치아이", price: "11,800", change: "-470", rate: "4.15%", market: "KOSDAQ" },
-    ];
+    const fetchAll = async () => {
+      try {
+        setLoading(true);
+        const [
+          stockRes,
+          inventoryRes,
+          completedRes,
+          pendingRes,
+          bookmarkRes
+        ] = await Promise.all([
+          getStockList(),
+          getInventory(),
+          getTradeList("COMPLETED"),
+          getTradeList("PENDING"),
+          getBookmarkStockStatus()
+        ]);
+
+        if (inventoryRes.isSuccess) setInventoryList(inventoryRes.result);
+        if (completedRes.isSuccess) setCompletedTrades(completedRes.result);
+        if (pendingRes.isSuccess) setPendingTrades(pendingRes.result);
+
+        if (stockRes.isSuccess && bookmarkRes.isSuccess) {
+          const bookmarkedNames = bookmarkRes.result.map((item: any) => item.stockName);
+          const merged = stockRes.result.map((stock: any) => ({
+            ...stock,
+            bookmarked: bookmarkedNames.includes(stock.stockName)
+          }));
+          setStockList(merged);
+        }
+      } catch (err) {
+        console.error("전체 데이터 불러오기 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+    fetchAll();
+  }, []);
+
+  const stockMap = useMemo(() => {
+    const map = new Map();
+    stockList.forEach((s) => map.set(s.id, s));
+    return map;
+  }, [stockList]);
+              
+  const visibleInven = useMemo(() => showAll ? inventoryList : inventoryList.slice(0, 3), [showAll, inventoryList]);
+  const visiblePending = useMemo(() => showAll ? pendingTrades : pendingTrades.slice(0, 3), [showAll, pendingTrades]);
+  const visibleComplete = useMemo(() => showAll ? completedTrades : completedTrades.slice(0, 3), [showAll, completedTrades]);
+
+    const handleBookmarkToggle = async (stockId: number) => {
+      try {
+        const res = await setBookmark(stockId);
+        console.log("북마크 응답:", res.result);
+        if (res.isSuccess) {
+          const isNowBookmarked = res.result.bookmarked;
+          // 변경된 bookmarked 상태 반영
+          setStockList((prevList) =>
+            prevList.map((stock) =>
+              stock.id === stockId ? { ...stock, bookmarked: !stock.bookmarked } : stock
+            )
+          );
+        } else {
+          console.error("북마크 토글 실패:", res.message);
+        }
+      } catch (err) {
+        console.error("북마크 API 오류:", err);
+      }
+    };
+
+    if (loading) {
+      return (
+        <div className="loading-container">
+          <div className="spinner" />
+          <p>데이터를 불러오는 중입니다...</p>
+        </div>
+      );
+    }
 
     return (
         <div className="invest-page-container">
             <Header title="투자하기" backgroundColor="#F5F6F8"/>
             <main className="invest-page-component-container">
-            <UserField/>
+            <UserField userInfo={userInfo} />
             <div className="tab-buttons">
         <button
           className={activeTab === "owned" ? "active" : ""}
@@ -65,18 +168,40 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>2<br />20,000</td>
-                  <td>10,234<br />10,000</td>
-                </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>2<br />20,000</td>
-                  <td>25,000<br />10,000</td>
-                </tr>
-              </tbody>
+  {visibleInven.map((inv) => {
+    
+    
+    const matchedStock = stockMap.get(inv.stockId);
+    
+    const currentPrice = matchedStock?.stckPrpr || 0;
+    const evaluation = currentPrice * inv.quantity;
+
+    return (
+      <tr key={inv.stockId}>
+        <td>{inv.stockName}</td>
+        <td>
+          {inv.quantity.toLocaleString()}
+          <br />
+          {evaluation.toLocaleString()}
+        </td>
+        <td>
+          {inv.purchasePrice.toLocaleString()}
+          <br />
+          {currentPrice.toLocaleString()}
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
             </table>
+            {inventoryList.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
           </div>
         )}
 
@@ -91,18 +216,27 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>매도</td>
-                  <td>10,000<br />2</td>
+              {visiblePending.map((trade) => (
+                <tr key={trade.tradeId}>
+                  <td>{trade.stockName}</td>
+                  <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
+                  <td>
+                    {trade.price.toLocaleString()}
+                    <br />
+                    {trade.quantity}
+                  </td>
                 </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>매수</td>
-                  <td>25,000<br />3</td>
-                </tr>
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
+          {pendingTrades.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
           </div>
         )}
 
@@ -117,36 +251,34 @@ const Stock_inv: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>삼성전자</td>
-                  <td>매도</td>
-                  <td>10,000<br />2</td>
+              {visibleComplete.map((trade) => (
+          <tr key={trade.tradeId}>
+                  <td>{trade.stockName}</td>
+                  <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
+                  <td>
+                    {trade.price.toLocaleString()}
+                    <br />
+                    {trade.quantity}
+                  </td>
                 </tr>
-                <tr>
-                  <td>현대차</td>
-                  <td>매수</td>
-                  <td>25,000<br />3</td>
-                </tr>
-              </tbody>
+              ))}
+            </tbody>
             </table>
-          </div>
+            {completedTrades.length > 3 && (
+      <button
+        className="toggle-history-btn"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "접기" : "더보기"}
+      </button>
+    )}
+  </div>
         )}
         </div>
         <div className="fixed-stock-list">
-            {/* 관심 주식 버튼 */}
-            <div className="favorite-buttons">
-              {stockData.map((stock) => (
-                <button
-                  key={stock.name}
-                  className={`favorite-btn ${favorites.includes(stock.name) ? "active" : ""}`}
-                  onClick={() => toggleFavorite(stock.name)}
-                >
-                ★
-                </button>
-                ))}
-          </div>
 
-          {/* Stock Table */}
+        {/* Stock Table */}
+        <div style={{ overflowX: "auto" }}>
           <table>
             <thead>
               <tr>
@@ -157,29 +289,45 @@ const Stock_inv: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {stockData.map((stock) => {
-              const isPositive = stock.change.startsWith("+");
-              return (
-              <tr key={stock.name}>
-                <td>
-                  <a href="#" onClick={() => navigate(`/stocks/${stock.name}`)} className="stock-link">
-                  {stock.name}
-                  </a>
-                  <div className="market-name">{stock.market}</div>
-                </td>
-                <td className={`price ${isPositive ? "up" : "down"}`}>{stock.price}</td>
-                <td className={`change ${isPositive ? "up" : "down"}`}>
-                  {isPositive ? "▲" : "▼"} {stock.change.replace("+", "").replace("-", "")}
-                </td>
-                <td className={`change-rate ${isPositive ? "up" : "down"}`}>
-                  {stock.rate}
-                </td>
-              </tr>
-              );
-              })}
-            </tbody>
-          </table>
-      </div>
+            {stockList.map((stock) => {
+    const isPositive = stock.prdyVrss >= 0;
+    return (
+      <tr key={stock.id}>
+        <td>
+          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <button
+            className={`favorite-btn ${stock.bookmarked ? "active" : ""}`}
+            onClick={() => handleBookmarkToggle(stock.id)}
+            >
+              ★
+            </button>
+            <div>
+              <a
+                onClick={() => navigate(`/stocks/${stock.id}`)}
+                className="stock-link"
+              >
+                {stock.stockName}
+              </a>
+              <div className="market-name">{stock.stockIndustry}</div>
+            </div>
+          </div>
+        </td>
+        <td className={`price ${isPositive ? "up" : "down"}`}>
+          {stock.stckPrpr.toLocaleString()}
+        </td>
+        <td className={`change ${isPositive ? "up" : "down"}`}>
+          {isPositive ? "▲" : "▼"} {Math.abs(stock.prdyVrss).toLocaleString()}
+        </td>
+        <td className={`change-rate ${isPositive ? "up" : "down"}`}>
+          {stock.prdyCtrt}%
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+</table>
+  </div>
+    </div>
       </main>
       <Footer/>
     </div>
@@ -187,5 +335,3 @@ const Stock_inv: React.FC = () => {
 };
 
 export default Stock_inv;
-
-

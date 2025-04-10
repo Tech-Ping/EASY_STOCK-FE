@@ -8,12 +8,13 @@
   align-items: center; /* 가로 방향 정렬 */
   margin: 0 auto; /* 수평 중앙 정렬 */
   text-align: center;
-  position: fixed;
+  padding-bottom: 80px;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 700px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+
   }
   
   .mypage-component-container {
@@ -30,7 +31,42 @@
   .mypage-container .title {
     color:#2A2738;
     font-weight: 600;
+    font-size: 25px;
     text-align:left;
     margin-left: 40px;
     margin-top: 15px;
   }
+
+  .stock-componet-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0px;
+    scroll-snap-type: x mandatory;
+  }
+  .stock-componet-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .stock-componet-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+
+  .bookmark-stock-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0px;
+    scroll-snap-type: x mandatory;
+  }
+  .bookmark-stock-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .bookmark-stock-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+
+  

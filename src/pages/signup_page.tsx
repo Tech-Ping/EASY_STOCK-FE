@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {signUp } from "../api/auth";
 import '../style/signup.css';
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [confirmPasswordEnabled, setConfirmPasswordEnabled] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({
-    nickname: '',
-    birthdate: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
+    nickname: "",
+    birthDate: "",
+    username: "",
+    password: "",
+    passwordCheck: "",
+    isAgreed: false,
   });
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
+    setFormData((prev) => ({ ...prev, isAgreed: e.target.checked })); 
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +36,7 @@ const Signup: React.FC = () => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
 
-    if(id == 'confirmPassword' && formData.password !== value ) {
+    if(id == 'passwordCheck' && formData.password !== value ) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
     } else {
       setConfirmPasswordError('');
@@ -38,12 +44,12 @@ const Signup: React.FC = () => {
   };
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const { nickname, birthdate, username, password, confirmPassword } = formData;
+    const { nickname, birthDate, username, password, passwordCheck, isAgreed } = formData;
 
     // Validation check
-    if (!nickname || !birthdate || !username || !password || !confirmPassword) {
+    if (!nickname || !birthDate || !username || !password || !passwordCheck) {
       alert('모든 정보를 입력해 주세요.');
       return;
     }
@@ -52,9 +58,26 @@ const Signup: React.FC = () => {
       alert('개인정보 처리 방침에 동의해 주세요.');
       return;
     }
+    setIsLoading(true);
 
-    // If all fields are filled
-    alert('회원가입이 완료되었습니다!');
+    try {
+      const response = await signUp(formData);
+      console.log("회원가입 성공:", response);
+      alert('회원가입이 완료되었습니다!');
+      navigate('/');
+    } catch (error: any) {
+      const serverMessage = error?.response?.data?.message;
+      if (serverMessage) {
+        alert(serverMessage);
+      } else {
+        alert("회원가입 중 오류가 발생했습니다.");
+      }
+      console.error("회원가입 오류:", error);
+    } finally {
+      setIsLoading(false);
+    }
+
+    
   };
 
   return (
@@ -86,10 +109,10 @@ const Signup: React.FC = () => {
           <br />
           <input
             type="date"
-            id="birthdate"
+            id="birthDate"
             placeholder="생년월일을 입력하세요"
             className="input-field"
-            value={formData.birthdate}
+            value={formData.birthDate}
             onChange={handleInputChange}
           />
         </div>
@@ -129,11 +152,11 @@ const Signup: React.FC = () => {
         <div className="input-group">
           <input
             type="password"
-            id="confirmPassword"
+            id="passwordCheck"
             className={`input-field ${!confirmPasswordEnabled ? 'disabled-field' : ''}`}
             placeholder="비밀번호를 확인해주세요"
             disabled={!confirmPasswordEnabled}
-            value={formData.confirmPassword}
+            value={formData.passwordCheck}
             onChange={handleInputChange}
             style={{
               marginTop: -10,

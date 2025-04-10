@@ -34,7 +34,7 @@ const Quiz_Correct: React.FC = () => {
       <p className="next-level-info">
         다음 레벨까지 +{nextLevelXpRequirement}xp가 필요합니다.
       </p>
-      <button className="home-button" onClick={() => navigate("/")}>
+      <button className="home-button" onClick={() => navigate("/home")}>
         홈으로
       </button>
 

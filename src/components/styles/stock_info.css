@@ -1,9 +1,11 @@
 .stock-info-container {
     border: 2px solid #EDEEF2;
     border-radius: 4px;
-    padding: 15px 20px; 
-    margin-left: 35px;
-    width: 40%;
+    padding: 20px 20px; 
+    margin-left: 30px;
+    margin-right: -20px;
+    flex: 0 0 auto;
+    width: 200px;
     max-width: 300px;
     font-family: 'Pretendard';
     display: flex;
@@ -12,22 +14,22 @@
     box-sizing: border-box;
 }
 
-.stock-name {
-    font-size: 1.5rem;
-    font-weight: 700; 
+.stock-info-container .stock-name {
+    font-size: 1.4rem;
+    font-weight: 600; 
     color: #2A2738;
     text-align: left; 
     margin: 0 0 10px 0;
     width: 100%; 
 }
 
-.stocken-length {
+.stock-info-container .stocken-length {
     margin-left: -20px;
     max-width: 130px;
-    width:70%;
+    width:90%;
 }
 
-.stock-change {
+.stock-info-container .stock-change {
     font-size: 0.7rem;
     font-weight: 700; 
     color: #2A2738;
@@ -39,11 +41,11 @@
     gap: 5px;
 }
 
-.change-value {
+.stock-info-container .change-value {
     font-weight: 800;
 }
 
-.down-icon, .up-icon {
+.stock-info-container .down-icon, .up-icon {
     font-size: 0.7rem; 
     font-weight: bold;
 }

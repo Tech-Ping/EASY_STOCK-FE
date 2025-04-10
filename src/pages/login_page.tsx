@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { login } from '../api/auth';
 import '../style/login.css';
 import { useNavigate } from 'react-router-dom';
 import stocki from '../images/stocky-clear.png';
@@ -8,8 +9,9 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async(e: React.FormEvent) => {
     e.preventDefault();
     setError(''); // Reset error message
 
@@ -23,17 +25,28 @@ const Login: React.FC = () => {
       return;
     }
 
-    // Placeholder for API connection
-    // Simulate API response with a delay
-    setTimeout(() => {
-      const isValid = false; // Change this based on API response
-      if (!isValid) {
-        alert('아이디나 비밀번호가 옳지 않습니다.');
+    setIsLoading(true);
+
+    try {
+      const response = await login({ username, password });
+
+      if (response.isSuccess) {
+        // 토큰 저장
+        localStorage.setItem("accessToken", response.result.tokenResponse.accessToken);
+        localStorage.setItem("refreshToken", response.result.tokenResponse.refreshToken);
+
+        console.log("login successful:", response);
+
+        // 로그인 후 페이지 이동
+        navigate("/home");
       } else {
-        // Navigate to the next page if login succeeds
-        console.log('Login successful');
+        alert("아이디나 비밀번호가 옳지 않습니다.");
       }
-    }, 500);
+    } catch (error) {
+      alert("로그인에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
