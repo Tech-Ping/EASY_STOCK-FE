@@ -1,0 +1,70 @@
+.chat-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; /* Ensure the page takes up full viewport height */
+}
+
+.chat-container {
+  flex: 1; /* Allow this to expand and fill available space */
+  margin: 0 auto;
+  max-width: 700px; /* 원하는 최대 너비 설정 */
+  width: 100%; /* 전체 화면 너비 채우기 */
+  height: calc(100vh - 100px); /* 헤더와 입력창 제외 */
+  overflow: hidden;
+}
+
+.chat-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+.stocki-wrapper {
+  flex-grow: 1;
+  align-items: center;
+  gap: 8px; /* Space between image and text */
+}
+
+.stocki-wrapper img {
+  width: 20px; 
+  height: auto;
+  max-width: 100%; 
+}
+
+.chat-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.go-back {
+  background-color: transparent;
+  border: none;
+  color: #636363;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.chat-comp {
+  margin: 2px;
+}
+
+.chat-messages {
+  height: calc(100vh - 200px);
+  overflow-y: auto; /* Enable scrolling if messages exceed height */
+  padding: 10px;
+  display: flex;
+  flex:1;
+  flex-direction: column; /* Stack messages vertically */
+}
+
+.chat-wrapper.user {
+  justify-content: flex-end; /* Align user messages to the right */
+}
+
+.chat-wrapper.bot {
+  justify-content: flex-start; /* Align bot messages to the left */
+}

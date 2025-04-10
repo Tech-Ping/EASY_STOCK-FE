@@ -1,0 +1,37 @@
+.chat-wrapper {
+    display: flex;
+    margin: 10px 0;
+  }
+  
+  .chat-wrapper.user {
+    margin-right: 8px;
+    justify-content: flex-end; /* Align user messages to the right */
+  }
+  
+  .chat-wrapper.bot {
+    margin-left: 8px;
+    justify-content: flex-start; /* Align bot messages to the left */
+  }
+  
+  .chat-content {
+    max-width: 60%;
+  }
+  
+  .chatting {
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+  /*전체 font weight변경ㅎ지 않고 여기서 바꿀 수 있게 수정*/
+  .chatting.user {
+    background-color: #EFF1F3;
+    font-weight: 300;
+  }
+  
+  .chatting.bot {
+    background-color: #00CE93;
+    color: white;
+    font-weight: 300; 
+  }
+  
