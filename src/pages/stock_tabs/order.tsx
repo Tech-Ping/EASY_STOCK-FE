@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getStockQuotes } from '../../api/stocks';
 import { postTrade } from '../../api/order';
 import { getInventory } from '../../api/stocks';
+import { getUserProfile } from '../../api/auth';
 
 const StockOrders: React.FC = () => {
   const { stockId } = useParams<{ stockId: string }>();
@@ -13,6 +14,7 @@ const StockOrders: React.FC = () => {
   const [buyData, setBuyData] = useState<any>(null);
   const [sellData, setSellData] = useState<any>(null);
   const [price, setPrice] = useState<number>(0);
+  const [tokenBudget, setTokenBudget] = useState<number>(0);
   const orderLabel = orderType === 'SELL' ? '매도' : '매수';
 
 
@@ -51,9 +53,20 @@ const StockOrders: React.FC = () => {
         console.error("보유 주식 정보 불러오기 실패", err);
       }
     };
+    const fetchProfile = async () => {
+      try {
+        const res = await getUserProfile();
+        if (res.isSuccess) {
+          setTokenBudget(res.result.tokenBudget);
+        }
+      } catch (err) {
+        console.error("사용자 스토큰큰 불러오기 실패", err);
+      }
+    };
 
     fetchQuotes();
     fetchInventory();
+    fetchProfile();
     
   }, [stockId]);
 
@@ -87,6 +100,10 @@ const StockOrders: React.FC = () => {
   const handleOrder = async () => {
     if (orderType === 'SELL' && quantity > availableShares) {
       alert(`보유 수량보다 많은 수량을 매도할 수 없습니다.\n현재 보유: ${availableShares}주`);
+      return;
+    }
+    if (orderType === 'BUY' && totalAmount > tokenBudget) {
+      alert(`보유 스토큰보다 많은 금액을 매수할 수 없습니다.\n현재 스토큰: ${tokenBudget.toLocaleString()} Stoken`);
       return;
     }
     const requestBody = {

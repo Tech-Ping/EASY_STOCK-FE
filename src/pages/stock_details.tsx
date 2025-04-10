@@ -35,8 +35,10 @@ interface StockDetail {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const { stockId } = useParams<{ stockId: string }>();
-
+    
     const renderTabContent = () => {
+      if (!stockData) return <div>종목 정보를 불러오는 중...</div>;
+
       switch (activeTab) {
         case "주문":
           return <StockOrders />;
@@ -45,7 +47,7 @@ interface StockDetail {
         case "투자자":
           return <StockInvestors />;
         case "뉴스":
-          return <StockNews />;
+           return <StockNews ticker={stockData.stockName} />;
         case "기업채무":
           return <StockDebt />;
       }
