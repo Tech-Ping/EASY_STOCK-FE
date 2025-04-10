@@ -19,12 +19,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/invest" element={<Stock_inv />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/report" element={<Report />} />
-        <Route path="/stocks/:stockName" element={<Stock_details/>} />
+        <Route path="/stocks/:stockId" element={<Stock_details />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path ="quiz/result" element={<Quiz_Correct />} />
       </Routes>

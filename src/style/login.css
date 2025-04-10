@@ -107,5 +107,6 @@ body {
   }
   
   .login-container .signup-button:hover {
-    background-color: #757575;
+    border-width: 12px;
+    border-color: #757575;
   }

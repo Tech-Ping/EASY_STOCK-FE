@@ -4,20 +4,17 @@ import Stoken from "./stocken";
 import './styles/user_field.css';
 
 interface UserProfile {
-    nickname: string;
-    level: string;
-    tokenBudget: number;
-    xpGuage: number;
-}
+    userInfo: {
+        profileImage: number;
+        level: string;
+        tokenBudget: number;
+        nickname: string;
+        xpGauge: number;
+      } | null;
+    }
 
-const UserField: React.FC = () => {
-    //API연결 전 더미데이터
-    const [userData, setUserData] = useState<UserProfile> ({
-        nickname:"테크핑",
-        level: "ONE",
-        tokenBudget: 3000,
-        xpGuage: 150,
-    });
+    const UserField: React.FC<UserProfile> = ({ userInfo }) => {
+        if (!userInfo) return <p>로딩 중...</p>;
 
     const levelMapping: { [key: string]: { display: string; level: number; minXP: number; maxXP: number } } = {
         ZERO: { display: "Lv. 0 주식 신생아", level: 0, minXP:0, maxXP:49 },
@@ -29,11 +26,13 @@ const UserField: React.FC = () => {
         SIX: { display: "Lv. 6 주식 마스터", level: 6, minXP:3500, maxXP:Infinity },
     };
 
-    const currentLevelObj = levelMapping[userData.level] || levelMapping.ZERO;
+    const currentLevelObj = levelMapping[userInfo.level] || levelMapping.ZERO;
     const nextLevelObj = Object.values(levelMapping).find(lvl => lvl.level === currentLevelObj.level + 1);
     //레벨 정책 fix 필요
-    const remainingXp = nextLevelObj ? nextLevelObj.minXP - userData.xpGuage : 0;
-    const progressPercentage = ((userData.xpGuage - currentLevelObj.minXP) / (currentLevelObj.maxXP - currentLevelObj.minXP)) * 100;
+    const xp = Number(userInfo?.xpGauge ?? 0); 
+    const remainingXp = nextLevelObj ? nextLevelObj.minXP - xp : 0;
+    const progressPercentage =
+  ((xp - currentLevelObj.minXP) / (currentLevelObj.maxXP - currentLevelObj.minXP)) * 100;
 
     return(
         <div className="user-field-container">
@@ -50,10 +49,10 @@ const UserField: React.FC = () => {
                 }}/>
             </div>
             <div className="lv-name-stoken">
-                <h3 className="level-display">{levelMapping[userData.level].display}</h3>
+                <h3 className="level-display">{levelMapping[userInfo.level].display}</h3>
                 <div className="name-stoken">
-                    <h2 className="nickname">{userData.nickname}</h2>
-                    <Stoken stokenValue={3000}/>
+                    <h2 className="nickname">{userInfo.nickname}</h2>
+                    <Stoken stokenValue={userInfo.tokenBudget}/>
                     </div>
                 </div>
             </div>
@@ -67,7 +66,7 @@ const UserField: React.FC = () => {
                         style={{
                          width: `${progressPercentage}%`
                         }}>
-                        <span className="xp-bar-text">{userData.xpGuage}XP</span>
+                        <span className="xp-bar-text">{userInfo.xpGauge}XP</span>
                     </div>
                 </div>
                 {nextLevelObj && (
