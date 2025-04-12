@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         level: string;
         tokenBudget: number;
         nickname: string;
-        xpGauge: number;
+        xpGuage: number;
       }>(null);
       const [news, setNews] = useState<any[]>([]);
       const uniqueNews = news.filter(

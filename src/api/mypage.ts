@@ -26,3 +26,9 @@ export const getBookmarkStockStatus = async () => {
       throw error;
     }
   };
+
+
+export const requestLevelUp = async () => {
+  const res = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/api/level/up`);
+  return res.data;
+};
