@@ -1,0 +1,112 @@
+
+.chat-input-container-stock {
+    position: sticky;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+  
+  .chat-input-container {
+    position: sticky;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  select.stock-input option:hover {
+    background-color: #f0f0f0; /* Change hover background color */
+    color: #00CE93; /* Change hover text color */
+  }  
+
+.input-fields {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px; 
+    gap: 8px;
+    min-height: 60px;
+    width: calc(600% / 7 - 10px);
+    background-color: #EFF1F3;
+    border-radius: 10px;
+    flex: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .stock-input {
+      width: 100%; /* Makes inputs take up full width on smaller screens */
+    }
+  }
+  .stock-input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    width: calc(100% / 6 - 10px);
+    min-width: 90px;
+    box-sizing: border-box;
+    width:100px;
+    color: #2A2738;
+    font-weight: 500;
+  }
+
+  .stock-input option[value=""] {
+    color:#2A2738;
+  }
+  
+  .chat-input {
+    flex: 1;
+    resize: none;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #EFF1F3;
+    color:#A1A0A6;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .send-button {
+    background-color: #00CE93;
+    color: white;
+    border: none;
+    border-radius: 100%;
+    padding: 10px 15px;
+    margin: 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .send-button:hover {
+    background-color: #315d51;
+  }
+
+  .date-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .date-placeholder {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8C8A97;
+    pointer-events: none;
+    font-size: 14px;
+  }
+  
+  .date-input.empty {
+    color: transparent;
+  }
+  

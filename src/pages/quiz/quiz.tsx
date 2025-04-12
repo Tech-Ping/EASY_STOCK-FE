@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header";
 import stocky from "../../images/stocky.png";
 import "../../style/quiz.css";
 import WrongAnswerModal from "./quiz_wrong";
-
+import { fetchQuizQuestion, submitQuizAnswer } from "../../api/quiz";
+/*
 const dummyData = {
     "id": 2,
     "question": "예수금과 미수금의 차이점은?",
@@ -16,58 +17,104 @@ const dummyData = {
     "answerIndex": 1,
     "levelType": "ZERO"
 };
+*/
+interface QuizData {
+    id: number;
+    question: string;
+    options: string[];
+    answerIndex: number;
+    levelType: string;
+}
 
 const Quiz: React.FC = () => {
-    const [quiz] = useState(dummyData);
+    //const [quiz] = useState(dummyData);
+    const [quiz, setQuiz] = useState<QuizData | null>(null);
     const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
     const [showWrongModal, setShowWrongModal] = useState(false);
     const navigate = useNavigate();
-    const quizNumber = quiz.id <= 5 ? quiz.id : (quiz.id - 5);
 
-    const quizLabels = ["첫번째 문제", "두번째 문제", "세번째 문제", "네번째 문제", "다섯번째 문제"];
-    const quizText = quizLabels[quizNumber - 1] || "문제";
-
-    /*api연결 전 답안처리 */
-    const handleAnswerClick = (index: number) => {
-        setSelectedAnswer(index);
-        if (index === quiz.answerIndex) {
-            const dummyResponse = {
-              message: "정답입니다! 30 경험치가 추가되었습니다.",
-              addedXp: 30,
-              totalXp: 30,
-              correct: true
-            };
-            navigate("/quiz/result", { state: { data: dummyResponse } });
-          } else {
-            setShowWrongModal(true);
+    useEffect(() => {
+        const loadQuiz = async () => {
+          try {
+            const data = await fetchQuizQuestion();
+            if (data.isSuccess) {
+              setQuiz(data.result);
+            } else {
+              alert("퀴즈를 불러오지 못했습니다.");
+            }
+          } catch {
+            alert("퀴즈 요청 중 오류가 발생했습니다.");
           }
         };
+        loadQuiz();
+      }, []);
 
+
+    /*api연결 전 답안처리 */
+    const handleAnswerClick = async (index: number) => {
+        if (!quiz) return;
+
+        setSelectedAnswer(index);
+    try {
+      const res = await submitQuizAnswer(quiz.id, index);
+      if (res.isSuccess) {
+        if (res.result.correct) {
+          navigate("/quiz/result", { state: { data: res.result } });
+        } else {
+          setShowWrongModal(true);
+        }
+      } else {
+        alert("답안 제출 실패");
+      }
+    } catch (e) {
+      alert("서버 오류");
+    }
+  };
+
+  if (!quiz) {
     return (
-        <div className={`quiz-page-container ${showWrongModal ? "modal-active" : ""}`}>
-            <Header title={
-            <div>
-            <img src={stocky} alt="logo" style={{width: 35}}/>
-            <span>스토기</span>
-            </div>
-        } 
-        showPrevButton  backgroundColor="#ffff"/>
-            <main className="quiz-component-container">
-            <p className="quiz-number">{quizText}</p>
-            <p className="quiz-question">{quiz.question}</p>
-            <p className="quiz-guide">정답을 클릭하면 바로 다음으로 넘어갑니다.</p>
-            <div className="quiz-options">
-                {quiz.options.map((option, index) => (
-                    <button
-                    key={index}
-                    className={`quiz-option ${selectedAnswer === index ? "selected" : ""}`}
-            onClick={() => handleAnswerClick(index)}>{option}</button>
-                ))}
-            </div>
-            {showWrongModal && <WrongAnswerModal onClose={() => setShowWrongModal(false)} />}
-            </main>
-        </div>
+      <div className="quiz-page-container">
+        <Header
+          title={<div><img src={stocky} alt="logo" style={{ width: 35 }} /><span>스토기</span></div>}
+          showPrevButton
+          backgroundColor="#ffff"
+        />
+        <main className="quiz-component-container">
+          <p>문제를 불러오는 중입니다...</p>
+        </main>
+      </div>
     );
+  }
+  
+  const quizNumber = quiz.id <= 5 ? quiz.id : quiz.id - 5;
+  const quizLabels = ["첫번째 문제", "두번째 문제", "세번째 문제", "네번째 문제", "다섯번째 문제"];
+  const quizText = quizLabels[quizNumber - 1] || "문제";
+  
+  return (
+    <div className={`quiz-page-container ${showWrongModal ? "modal-active" : ""}`}>
+      <Header
+        title={<div><img src={stocky} alt="logo" style={{ width: 35 }} /><span>스토기</span></div>}
+        showPrevButton
+        backgroundColor="#ffff"
+      />
+      <main className="quiz-component-container">
+        <p className="quiz-number">{quizText}</p>
+        <p className="quiz-question">{quiz.question}</p>
+        <div className="quiz-options">
+          {quiz.options.map((option, index) => (
+            <button
+              key={index}
+              className={`quiz-option ${selectedAnswer === index ? "selected" : ""}`}
+              onClick={() => handleAnswerClick(index)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+        {showWrongModal && <WrongAnswerModal onClose={() => setShowWrongModal(false)} />}
+      </main>
+    </div>
+  );
 };
 
 export default Quiz;

@@ -14,9 +14,14 @@ import Stock_details from './pages/stock_details';
 import Quiz from './pages/quiz/quiz';
 import Quiz_Correct from './pages/quiz/quiz_result';
 
+import ChatbotButton from './components/chatbotButton';
+import Chat_Landing from './pages/chat/Chat_Landing';
+import ChatScreen from './pages/chat/Chat_Screen';
+import { ChatProvider } from './pages/chat/Chat_Context';
 
 const App: React.FC = () => {
   return (
+    <ChatProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -29,8 +34,18 @@ const App: React.FC = () => {
         <Route path="/stocks/:stockId" element={<Stock_details />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path ="quiz/result" element={<Quiz_Correct />} />
+        <Route path="/stocki" element={<Chat_Landing />} />
+        <Route
+          path="/stocki/chat"
+          element={
+            
+              <ChatScreen />
+          }
+        />
       </Routes>
+      <ChatbotButton/>
     </Router>
+    </ChatProvider>
   );
 };
 /*
