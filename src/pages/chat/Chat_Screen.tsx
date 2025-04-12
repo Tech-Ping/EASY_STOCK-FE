@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import Chat_Component from "./Chat_Component";
 import ChatType from "./Chat_type";
 import "./style/ChatScreen.css";
-import { sendStockQuestion, sendGeneralQuestion } from "./Chat_API";
-import { handleApiError } from "./Chat_API";
 import { ChevronLeft } from "react-feather";
 import { useNavigate, useLocation } from "react-router-dom";
 import stocki from '../../images/stocky-clear.png';
 import { useChat } from "./Chat_Context";
+import { handleApiError, sendGeneralQuestion, sendStockQuestion } from "../../api/chatbot";
 
 const ChatScreen: React.FC = () => {
   const { chat, addMessage } = useChat();

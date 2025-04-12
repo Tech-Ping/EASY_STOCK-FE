@@ -21,6 +21,7 @@ import { ChatProvider } from './pages/chat/Chat_Context';
 
 const App: React.FC = () => {
   return (
+    <ChatProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -37,14 +38,14 @@ const App: React.FC = () => {
         <Route
           path="/stocki/chat"
           element={
-            <ChatProvider>
+            
               <ChatScreen />
-            </ChatProvider>
           }
         />
       </Routes>
       <ChatbotButton/>
     </Router>
+    </ChatProvider>
   );
 };
 /*

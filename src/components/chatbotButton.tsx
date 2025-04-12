@@ -6,7 +6,7 @@ const ChatbotButton: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if(location.pathname.startsWith("/stocki") || location.pathname === "/"){
+  if(location.pathname.startsWith("/stocki") || location.pathname === "/" || location.pathname === "/signup"){
     return null;
   }
 

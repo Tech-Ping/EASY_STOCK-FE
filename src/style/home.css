@@ -36,3 +36,8 @@
 .home-component-container .news-today{
   font-weight: 500;
 }
+
+.home-component-container .news-container{
+  max-height: 320px;
+  overflow-y: auto;
+}
