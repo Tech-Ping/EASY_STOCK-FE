@@ -1,20 +1,18 @@
-.report-container{
+.report-container {
     min-height: 100vh;
     width: 100%;
     max-width: 700px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center; /* 가로 방향 정렬 */
-    margin: 0 auto; /* 수평 중앙 정렬 */
+    justify-content: flex-start;
+    align-items: center;
     text-align: center;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 700px;
-}
+    overflow-y: auto;  /* 내부 콘텐츠 스크롤 가능 */
+    position: relative; /* fixed → relative */
+    padding-bottom: 100px; /* Footer가 가려지지 않도록 */
+  }
+
 .report-component-container{
     flex: 1;
     display: flex;
@@ -27,10 +25,79 @@
 }
 
 .top-container{
+    background-color: #F5F6F8;
+    text-align: left;
+    padding: 25px;
+}
 
+.top-container .report-date{
+    margin-top: 10%;
+    color:#2A2738;
+    font-weight: 600;
+    font-size: 1.8em;
+    margin-bottom: 25px;
+}
+
+.top-container .investment-type-row{
+    display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.type-image {
+    position: absolute;
+    width: 50%;
+    right: -30px;
+    top:-80px;
+  }
+  @media (max-width: 2000px) {
+    .type-image {
+      width: 50%;
+      right: -30px;
+      top:-140px;
+    }
+  }
+  @media (max-width: 480px) {
+    .type-image {
+       width: 50%;
+       right: -30px;
+       top:-100px;
+    }
+  }
+  
+  .investment-type-text {
+    font-size: 1em;
+    font-weight: 700;
+    color: #2a2738;
+    line-height: 1.4;
+    white-space: nowrap; 
+  }
+  
+  .investment-label {
+    color: #2a2738;
+    font-weight: 600;
+    font-size: 23px;
+  }
+  
+  .investment-type {
+    color: #1db881;
+    font-weight: 600;
+    font-size: 23px;
+  }
+  
+
+.top-container .type-description{
+    width: 80%;
+    color: #2a2738;
+    font-weight: 500;
+    font-size:18px;
+    margin-top: 25px;
 }
 
 .bottom-container{
+    margin-top: 10px;
+}
+.bottom-container .monthly-stock{
     
 }
 
@@ -41,3 +108,12 @@
     margin-left: 40px;
     margin-top: 15px;
   }
+  .bottom-container .top-stock-container{
+    margin-bottom: 30px;
+    overflow-x: auto;
+  }
+  .bottom-container .chart-wrapper{
+    margin-top:-15px;
+  }
+  
+  
