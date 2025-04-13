@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
 
       {/* Profile Button */}
       <button
-        className={`footer-button ${isActive('/mypage') ? 'active' : ''}`}
+        className={`footer-button ${isActive('/mypage')|| isActive('/report') ? 'active' : ''}`}
         onClick={() => navigate('/mypage')}
       >
         <span className="material-symbols-outlined">person</span>
