@@ -12,11 +12,11 @@ export const getBookmarkStockStatus = async () => {
   };
 
   export const fetchMonthlyReport = async () => {
-    const ACCESS_TOKEN = localStorage.getItem("accessToken"); // 또는 다른 방식으로 토큰 주입
+    const tocken = localStorage.getItem("accessToken"); // 또는 다른 방식으로 토큰 주입
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/my/monthly-report`, {
         headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Authorization: `Bearer ${tocken}`,
           "Content-Type": "application/json",
         },
       });
