@@ -49,7 +49,7 @@ const checkLevelUp = (prevXp: number, currentXp: number, allQuizProblemsSolved: 
   );
 };
 
-const Quiz_Correct: React.FC = () => {
+const QuizCorrect: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state?.data;
@@ -107,4 +107,4 @@ const Quiz_Correct: React.FC = () => {
 
   
 
-export default Quiz_Correct;
+export default QuizCorrect;

@@ -27,7 +27,7 @@ interface StockDetail {
   acmlVol: number;
 }
 
-  const Stock_details: React.FC = () => {
+  const StockDetails: React.FC = () => {
     const { stockName } = useParams<{ stockName: string }>();
     const [stockData, setStockData] = useState<StockDetail>();
     const [activeTab, setActiveTab] = useState("주문")
@@ -116,4 +116,4 @@ interface StockDetail {
     );
   }
   
-  export default Stock_details;
+  export default StockDetails;

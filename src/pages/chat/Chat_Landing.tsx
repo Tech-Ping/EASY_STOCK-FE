@@ -5,7 +5,7 @@ import { ChevronLeft } from "react-feather";
 import chatting_landing from '../../images/chatting_landing-clear.png';
 import stocki from '../../images/stocky-clear.png';
 
-const Chat_Landing: React.FC = () => {
+const ChatLanding: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCategorySelect = (category: string) => {
@@ -72,4 +72,4 @@ const Chat_Landing: React.FC = () => {
   );
 };
 
-export default Chat_Landing;
+export default ChatLanding;

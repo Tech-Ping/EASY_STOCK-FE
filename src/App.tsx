@@ -5,15 +5,14 @@ import Login from './pages/login_page';
 import Signup from './pages/signup_page';
 import NotificationPage from './pages/notif_page';
 import Home from './pages/home';
-import Stock_inv from './pages/invest_page';
+import StockInv from './pages/invest_page';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
-import Stock_details from './pages/stock_details';
+import StockDetails from './pages/stock_details';
 import Quiz from './pages/quiz/quiz';
-import Quiz_Correct from './pages/quiz/quiz_result';
-
+import QuizCorrect from './pages/quiz/quiz_result';
 import ChatbotButton from './components/chatbotButton';
-import Chat_Landing from './pages/chat/Chat_Landing';
+import ChatLanding from './pages/chat/Chat_Landing';
 import ChatScreen from './pages/chat/Chat_Screen';
 import { ChatProvider } from './pages/chat/Chat_Context';
 
@@ -26,13 +25,13 @@ const App: React.FC = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/invest" element={<Stock_inv />} />
+        <Route path="/invest" element={<StockInv />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/report" element={<Report />} />
-        <Route path="/stocks/:stockId" element={<Stock_details />} />
+        <Route path="/stocks/:stockId" element={<StockDetails />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path ="quiz/result" element={<Quiz_Correct />} />
-        <Route path="/stocki" element={<Chat_Landing />} />
+        <Route path ="quiz/result" element={<QuizCorrect />} />
+        <Route path="/stocki" element={<ChatLanding />} />
         <Route
           path="/stocki/chat"
           element={

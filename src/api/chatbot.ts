@@ -1,6 +1,5 @@
-// apiService.ts
 import axios from "axios";
-import axiosInstance from "./axiosInstance";
+
 
 const token = localStorage.getItem("accessToken");
   

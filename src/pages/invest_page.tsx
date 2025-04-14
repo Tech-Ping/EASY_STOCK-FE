@@ -18,7 +18,7 @@ interface InventoryItem {
   purchasePrice: number;
 }
 
-const Stock_inv: React.FC = () => {
+const StockInv: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("owned");
   const [loading, setLoading] = useState(true);
@@ -334,4 +334,4 @@ const Stock_inv: React.FC = () => {
     );
 };
 
-export default Stock_inv;
+export default StockInv;
