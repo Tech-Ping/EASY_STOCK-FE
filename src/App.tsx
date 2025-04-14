@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/login_page';
@@ -7,7 +6,6 @@ import Signup from './pages/signup_page';
 import NotificationPage from './pages/notif_page';
 import Home from './pages/home';
 import Stock_inv from './pages/invest_page';
-import UserField from './components/user_field';
 import MyPage from './pages/mypage';
 import Report from './pages/personal_report';
 import Stock_details from './pages/stock_details';
