@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import profile_img from "../images/user_img.png";
 import Stoken from "./stocken";
 import './styles/user_field.css';
 
-interface UserProfile {
-    userInfo: {
-        profileImage: number;
-        level: string;
-        tokenBudget: number;
-        nickname: string;
-        xpGauge: number;
-      } | null;
-    }
+interface UserInfo {
+    profileImage: number;
+    level: string;
+    tokenBudget: number;
+    nickname: string;
+    xpGuage: number;
+} 
+interface UserFieldProps {
+    userInfo: UserInfo | null;
+}
 
-    const UserField: React.FC<UserProfile> = ({ userInfo }) => {
-        if (!userInfo) return <p>로딩 중...</p>;
+
+    const UserField: React.FC<UserFieldProps> = ({userInfo}) => {
 
     const levelMapping: { [key: string]: { display: string; level: number; minXP: number; maxXP: number } } = {
         ZERO: { display: "Lv. 0 주식 신생아", level: 0, minXP:0, maxXP:49 },
@@ -25,11 +26,13 @@ interface UserProfile {
         FIVE: { display: "Lv. 5 주식 마니아", level: 5, minXP:2001, maxXP:3499 },
         SIX: { display: "Lv. 6 주식 마스터", level: 6, minXP:3500, maxXP:Infinity },
     };
+    
+      if (!userInfo) return <p>로딩 중...</p>;
 
     const currentLevelObj = levelMapping[userInfo.level] || levelMapping.ZERO;
     const nextLevelObj = Object.values(levelMapping).find(lvl => lvl.level === currentLevelObj.level + 1);
     //레벨 정책 fix 필요
-    const xp = Number(userInfo?.xpGauge ?? 0); 
+    const xp = Number(userInfo?.xpGuage ?? 0); 
     const remainingXp = nextLevelObj ? nextLevelObj.minXP - xp : 0;
     const progressPercentage =
   ((xp - currentLevelObj.minXP) / (currentLevelObj.maxXP - currentLevelObj.minXP)) * 100;
@@ -66,7 +69,7 @@ interface UserProfile {
                         style={{
                          width: `${progressPercentage}%`
                         }}>
-                        <span className="xp-bar-text">{userInfo.xpGauge}XP</span>
+                        <span className="xp-bar-text">{userInfo.xpGuage}XP</span>
                     </div>
                 </div>
                 {nextLevelObj && (

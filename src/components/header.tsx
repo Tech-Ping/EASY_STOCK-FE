@@ -30,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({ title, showPrevButton = false, backgrou
       )}
       <h1 className='header-title'>{title}</h1>
         {(isHome || isMyPage )&& (
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <button
             className={`notif-button`}
             onClick={() => navigate('/notification')}
@@ -47,6 +48,25 @@ const Header: React.FC<HeaderProps> = ({ title, showPrevButton = false, backgrou
         <path d="M9.5 24C10.8062 24 11.875 22.8923 11.875 21.5385H7.125C7.125 22.8923 8.19375 24 9.5 24ZM16.625 16.6154V10.4615C16.625 6.68308 14.6894 3.52 11.2812 2.68308V1.84615C11.2812 0.824615 10.4856 0 9.5 0C8.51437 0 7.71875 0.824615 7.71875 1.84615V2.68308C4.3225 3.52 2.375 6.67077 2.375 10.4615V16.6154L0 19.0769V20.3077H19V19.0769L16.625 16.6154ZM14.25 17.8462H4.75V10.4615C4.75 7.40923 6.54313 4.92308 9.5 4.92308C12.4569 4.92308 14.25 7.40923 14.25 10.4615V17.8462Z" fill="#2A2738"/>
         </svg>
       </button>
+
+       <button
+      className="logout-button"
+      onClick={() => {
+        localStorage.removeItem("accessToken"); // 필요 시 refreshToken도 같이
+        navigate("/"); // 로그인 페이지로 리디렉션
+      }}
+      style={{
+        background: "transparent",
+        border: "none",
+        color: "#2A2738",
+        fontSize: "14px",
+        cursor: "pointer",
+        opacity: 0.8,
+      }}
+    >
+      로그아웃
+    </button>
+    </div>
       )} 
     </header>
   );

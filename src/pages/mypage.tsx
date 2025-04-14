@@ -27,7 +27,7 @@ const MyPage: React.FC = () => {
             level: string;
             tokenBudget: number;
             nickname: string;
-            xpGauge: number;
+            xpGuage: number;
           }>(null);
     const [myStocks, setMyStocks] = useState<MyStock[]>([]);
     const [myBookmarkStocks, setBookmarkStocks] = useState<BookmarkStock[]>([]);

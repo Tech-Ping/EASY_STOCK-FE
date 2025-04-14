@@ -32,7 +32,7 @@ const Stock_inv: React.FC = () => {
           level: string;
           tokenBudget: number;
           nickname: string;
-          xpGauge: number;
+          xpGuage: number;
         }>(null);
   const [inventoryList, setInventoryList] = useState<InventoryItem[]>([]);
 
