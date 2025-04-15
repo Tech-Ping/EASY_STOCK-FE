@@ -110,7 +110,12 @@
   }
   .bottom-container .top-stock-container{
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 0px;
+    scroll-snap-type: x mandatory;
   }
   .bottom-container .chart-wrapper{
     margin-top:-15px;
