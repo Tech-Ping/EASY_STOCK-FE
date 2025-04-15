@@ -124,7 +124,7 @@ const StockInv: React.FC = () => {
       return (
         <div className="loading-container">
           <div className="spinner" />
-          <p>데이터를 불러오는 중입니다...</p>
+          <p>주식 정보를 불러오는 중입니다...</p>
         </div>
       );
     }

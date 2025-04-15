@@ -2,9 +2,10 @@
     position: fixed; 
     bottom: 12%; 
     right: 12%; 
-    width: 60px;
-    height: 60px;
-    background-color: #00CE93;
+    width: 50px;
+    height: 50px;
+    /*background-color: #00CE93;*/
+    background: transparent;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -16,4 +17,9 @@
     font-size: 16px;
     font-weight: bold;
     color: white;
+  }
+
+  .chatbot-icon {
+    width: 80px;   /* adjust as needed */
+    height: auto;
   }

@@ -40,9 +40,9 @@ const ChatLanding: React.FC = () => {
             </div>
            <img src={chatting_landing} className="landing-image" alt="Stoki"
             style={{
-                width: "400px", // Set your desired width
-                height: "auto", // Maintain the aspect ratio
-                maxWidth: "100%", // For responsiveness
+                width: "400px",
+                height: "auto",
+                maxWidth: "100%", 
               }}/>
         </div>
         <div className="category-selection">

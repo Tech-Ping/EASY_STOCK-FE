@@ -3,7 +3,7 @@ import { classicNameResolver } from 'typescript';
 import "./style/ChatComponents.css";
 
 
-function Chat_Component({content, isUser}: any){//props로 받아올 데이터
+function Chat_Component({content, isUser, isLoading}: any){//props로 받아올 데이터
   //name 상태 변수와 setname 함수 정의
   const [name, setname] = useState("");
 
@@ -11,6 +11,12 @@ function Chat_Component({content, isUser}: any){//props로 받아올 데이터
   useEffect(()=> {
     setname(isUser ? "사용자" : "스토기");
   }, [isUser]);
+
+  const renderLoadingDots = () => (
+    <div className="typing-indicator">
+      <span></span><span></span><span></span>
+    </div>
+  );
 
   return (
     <>
@@ -26,7 +32,9 @@ function Chat_Component({content, isUser}: any){//props로 받아올 데이터
         <div id="bot" className="chat-wrapper bot">
           <div className="chat-content">
             <div id="chatting" className="chatting bot">
-              <span dangerouslySetInnerHTML={{ __html: content }} />
+            {isLoading ? renderLoadingDots() : (
+                <span dangerouslySetInnerHTML={{ __html: content }} />
+              )}
             </div>
           </div>
         </div>

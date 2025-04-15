@@ -8,10 +8,8 @@
   align-items: center; /* 가로 방향 정렬 */
   margin: 0 auto; /* 수평 중앙 정렬 */
   text-align: center;
-  position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
   width: 100%;
   max-width: 700px;
 }
@@ -27,6 +25,8 @@
   width: 100%;
   padding-top: 20px;
   gap: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .home-component-container .userfield-container{

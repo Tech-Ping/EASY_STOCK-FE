@@ -9,7 +9,7 @@ import { useChat } from "./Chat_Context";
 import { handleApiError, sendGeneralQuestion, sendStockQuestion } from "../../api/chatbot";
 
 const ChatScreen: React.FC = () => {
-  const { chat, addMessage } = useChat();
+  const { chat, setChat, addMessage } = useChat();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,6 +17,8 @@ const ChatScreen: React.FC = () => {
   const selectedCategory = location.state?.category || "";
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
+
 
   //
   useEffect(() => {
@@ -26,21 +28,41 @@ const ChatScreen: React.FC = () => {
   }, [chat]);
 
   const handleSendMessage = async (serverData: any, displayMessage: string) => {
-    addMessage({ id: chat.length + 1, content: displayMessage, isUser: true });
-
+    // 1. 사용자 메시지 추가 (로딩 X)
+    addMessage({ id: chat.length + 1, content: displayMessage, isUser: true, isLoading: false });
+  
+    // 2. 챗봇 로딩 메시지 추가
+    const loadingMessageId = chat.length + 2;
+    addMessage({ id: loadingMessageId, content: "", isUser: false, isLoading: true });
+  
     try {
+      // 3. 챗봇 응답 대기
       const botMessage =
         selectedCategory === "주식 질문"
           ? await sendStockQuestion(serverData)
-          : await sendGeneralQuestion({ prompt: serverData.prompt }); // "기타 질문" 처리
-
-      addMessage({ id: chat.length + 2, content: botMessage, isUser: false });
+          : await sendGeneralQuestion({ prompt: serverData.prompt });
+  
+      // 4. 로딩 메시지를 응답 메시지로 교체
+      setChat((prev) =>
+        prev.map((msg) =>
+          msg.id === loadingMessageId
+            ? { ...msg, content: botMessage, isLoading: false }
+            : msg
+        )
+      );
     } catch (error: any) {
       const errorMessage = error.response
         ? handleApiError(error.response.status, error.response.data.error)
         : "네트워크 오류가 발생했습니다. 다시 시도해주세요.";
-
-      addMessage({ id: chat.length + 2, content: errorMessage, isUser: false });
+  
+      // 5. 로딩 메시지를 에러 메시지로 교체
+      setChat((prev) =>
+        prev.map((msg) =>
+          msg.id === loadingMessageId
+            ? { ...msg, content: errorMessage, isLoading: false }
+            : msg
+        )
+      );
     }
   };
 
@@ -68,7 +90,7 @@ const ChatScreen: React.FC = () => {
         <div className="chat-comp">
           <div className="chat-messages" ref={chatContainerRef}>
             {chat.map((item) => (
-              <Chat_Component key={item.id} content={item.content} isUser={item.isUser} />
+              <Chat_Component key={item.id} content={item.content} isUser={item.isUser} isLoading={item.isLoading} />
             ))}
           </div>
         </div>

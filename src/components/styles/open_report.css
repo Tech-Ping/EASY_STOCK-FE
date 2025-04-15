@@ -53,10 +53,12 @@
         font-weight: 300;
     }
     .link {
-        margin-top: -15px;
-        margin-left: 300px;
         font-size: 10px;
         color: #2A2738;
         cursor: pointer;
         text-decoration: underline;
+        display: block;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: 20px;
     }
