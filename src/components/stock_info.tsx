@@ -10,9 +10,13 @@ interface StockInfoProps {
 
 const StockInfo: React.FC<StockInfoProps> = ({ stockName, stokenValue, changePercentage }) => {
   
-  const isNumber = typeof changePercentage === "number";
-  const isNegative = isNumber && changePercentage < 0;
-  const color = isNegative ? "#EB3639" : "#3681EB";
+  const isEmpty = changePercentage === "" || changePercentage === null || changePercentage === undefined;
+
+  const isNegative =
+    typeof changePercentage === "string"
+      ? changePercentage.trim().startsWith("-")
+      : changePercentage < 0;
+  const color = isNegative ? "#3681EB":"#EB3639";
 
   return (
     <div className="stock-info-container">
@@ -22,13 +26,13 @@ const StockInfo: React.FC<StockInfoProps> = ({ stockName, stokenValue, changePer
       </div>
       <div className="stock-change">
         <span>저번 달보다 </span>
-        {isNumber ? (
+        {!isEmpty ?  (
           <>
         <span 
           className="change-value" 
           style={{ color: color }}
         >
-          {Math.abs(changePercentage).toFixed(2)}%
+          {String(changePercentage).replace("-", "").trim()}%
         </span>
         {isNegative ? (
           <span className="down-icon" style={{ color: color }}>▼</span>
