@@ -15,6 +15,9 @@ import ChatbotButton from './components/chatbotButton';
 import ChatLanding from './pages/chat/Chat_Landing';
 import ChatScreen from './pages/chat/Chat_Screen';
 import { ChatProvider } from './pages/chat/Chat_Context';
+import TutorialWrapper from './components/tutorialWrapper';
+import Quiz_tutorial from './pages/quiz/tutorial_quiz';
+import TutorialEntryPage from './pages/tutorialEntry';
 
 const App: React.FC = () => {
   return (
@@ -39,6 +42,40 @@ const App: React.FC = () => {
               <ChatScreen />
           }
         />
+        
+        <Route path = "/tutorial" element={<TutorialEntryPage />} />
+        <Route path="/tutorial/home" element={
+        <TutorialWrapper>
+          <Home />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/invest" element={
+        <TutorialWrapper>
+          <StockInv />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/mypage" element={
+        <TutorialWrapper>
+          <MyPage />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/quiz" element={
+        <TutorialWrapper>
+          <Quiz_tutorial />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/stoki" element={
+        <TutorialWrapper>
+          <ChatLanding />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/stocks/:stockId" element={
+        <TutorialWrapper>
+          <StockDetails />
+        </TutorialWrapper>
+        } />
+
+
       </Routes>
       <ChatbotButton/>
     </Router>

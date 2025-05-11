@@ -1,0 +1,21 @@
+.tutorial-message-box {
+  position: absolute;
+  color: white;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.step-1 {
+  font-size: 18px;
+  font-weight: bold;
+  width: 80%;
+}
+
+.step-2 {
+  border-radius: 10px;
+  padding: 10px;
+}
+.highlight {
+  color: #00CE93;
+  font-weight: 600;
+}
