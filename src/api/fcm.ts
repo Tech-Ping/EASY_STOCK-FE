@@ -3,6 +3,7 @@ import axios from "axios";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getMessaging } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,9 +23,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+// Initialize Firebase Cloud Messaging and get a reference to the service
+const messaging = getMessaging(app);
 
-
-
+export {messaging};
 
 const API_BASE_URL = process.env.REACT_APP_API_URL; // .env에 설정한 백엔드 도메인
 

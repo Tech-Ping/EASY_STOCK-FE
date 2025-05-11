@@ -15,6 +15,7 @@ import ChatbotButton from './components/chatbotButton';
 import ChatLanding from './pages/chat/Chat_Landing';
 import ChatScreen from './pages/chat/Chat_Screen';
 import { ChatProvider } from './pages/chat/Chat_Context';
+import './api/fcm.ts';
 
 const App: React.FC = () => {
   return (
