@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import '../style/home.css';
@@ -7,6 +7,9 @@ import Learn_new from "../components/learn_today";
 import { getUserProfile } from "../api/auth";
 import NewsCardComponent from "../components/news_comp";
 import { fetchAllNews } from "../api/news";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { setTutorialBox } from "../store/tutorialSlice";
 
 const Home: React.FC = () => {
     const [userInfo, setUserInfo] = useState<null | {
@@ -21,7 +24,12 @@ const Home: React.FC = () => {
         (item, index, self) =>
           index === self.findIndex((t) => t.link === item.link)
       );
-    
+   
+      const stockBtnRef = useRef<HTMLDivElement>(null);
+      const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
+      const dispatch = useDispatch<AppDispatch>();
+      const userFieldRef = useRef<HTMLDivElement>(null);
+
       useEffect(() => {
         const fetchProfile = async () => {
           try {
@@ -48,27 +56,57 @@ const Home: React.FC = () => {
         loadNews();
       }, []);
 
+      useEffect(() => {
+    if (isTutorial && currentStep === 12 && stockBtnRef.current) {
+      const rect = stockBtnRef.current.getBoundingClientRect();
+      const padding = 5;
+      dispatch(setTutorialBox({
+        top: rect.top - padding,
+        left: rect.left - padding,
+        width: rect.width + padding * 2,
+        height: rect.height + padding* 2 ,
+      }));
+    }
+  }, [isTutorial, currentStep, dispatch]);
+
+  useEffect(() => {
+  if (isTutorial && currentStep === 13 && userFieldRef.current) {
+    const rect = userFieldRef.current.getBoundingClientRect();
+    const padding = 5;
+    dispatch(setTutorialBox({
+      top: rect.top - padding,
+      left: rect.left - padding,
+      width: rect.width + padding * 2,
+      height: rect.height + padding * 2,
+    }));
+  }
+}, [isTutorial, currentStep, dispatch]);
+
     return (
         <div className="home-container">
             <Header title="홈"/>
             <main className="home-component-container">
                 <Learn_new/>
                 <div className="userfield-container">
-                <UserField userInfo={userInfo} />
-                <div className="news-today">오늘의 뉴스</div>
-                <div className="news-container">
-                {uniqueNews.slice(0, 5).map((item, idx) => (
-        <NewsCardComponent
-          key={idx}
-          type="home"
-          title={item.title}
-          summary={""}
-          link={item.link}
-          thumbnail="https://via.placeholder.com/50"
-        />
-      ))}
-    </div>
+                  <div ref={userFieldRef}>
+                  <UserField userInfo={userInfo} />
                 </div>
+                <div ref={stockBtnRef}>
+                  <div className="news-today">오늘의 뉴스</div>
+                  <div className="news-container">
+                    {uniqueNews.slice(0, 5).map((item, idx) => (
+                    <NewsCardComponent
+                      key={idx}
+                      type="home"
+                      title={item.title}
+                      summary={""}
+                      link={item.link}
+                      thumbnail="https://via.placeholder.com/50"
+                    />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </main>
            <Footer/>
         </div>

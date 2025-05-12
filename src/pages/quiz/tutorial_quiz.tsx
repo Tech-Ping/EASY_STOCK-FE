@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header";
 import stocky from "../../images/stocky.png";
 import "../../style/quiz.css";
 import WrongAnswerModal from "./quiz_wrong";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../store"
+import { fetchUserProfile } from "../../store/userSlice";
+import { setTutorialBox } from "../../store/tutorialSlice";
 
 const dummyData = {
   id: 1,
@@ -22,6 +26,10 @@ const Quiz_tutorial: React.FC = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showWrongModal, setShowWrongModal] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const step3Ref = useRef<HTMLDivElement>(null);
 
   const handleAnswerClick = (index: number) => {
     setSelectedAnswer(index);
@@ -44,6 +52,32 @@ const Quiz_tutorial: React.FC = () => {
   const quizLabels = ["첫번째 문제", "두번째 문제", "세번째 문제", "네번째 문제", "다섯번째 문제"];
   const quizText = quizLabels[quizNumber - 1] || "문제";
 
+  useEffect(() => {
+  if (isTutorial && currentStep === 3 && step3Ref.current) {
+    const rect = step3Ref.current.getBoundingClientRect();
+    const padding = 5;
+    dispatch(setTutorialBox({
+      top: rect.top + 4*padding,
+      left: rect.left - padding,
+      width: rect.width + padding * 2,
+      height: rect.height - 4*padding,
+    }));
+  }
+}, [isTutorial, currentStep, dispatch]);
+
+  useEffect(() => {
+    if (isTutorial && currentStep === 4 && nextButtonRef.current) {
+      const rect = nextButtonRef.current.getBoundingClientRect();
+      const padding = 5;
+      dispatch(setTutorialBox({
+        top: rect.top - padding,
+        left: rect.left - padding,
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2,
+      }));
+    }
+  }, [isTutorial, currentStep, dispatch]);
+  
   return (
     <div className={`quiz-page-container ${showWrongModal ? "modal-active" : ""}`}>
       <Header
@@ -57,12 +91,16 @@ const Quiz_tutorial: React.FC = () => {
         backgroundColor="#ffff"
       />
       <main className="quiz-component-container">
-        <p className="quiz-number">{quizText}</p>
-        <p className="quiz-question">{quiz.question}</p>
+        <div ref={step3Ref}>
+          <p className="quiz-number">{quizText}</p>
+          <p className="quiz-question">{quiz.question}</p>
+          <p className="quiz-guide"> 정답을 클릭하면 바로 다음으로 넘어갑니다.</p>
+        </div>
         <div className="quiz-options">
           {quiz.options.map((option, index) => (
             <button
               key={index}
+              ref={index === quiz.answerIndex ? nextButtonRef : null} // ✅ 정답 버튼에만 ref 연결
               className={`quiz-option ${selectedAnswer === index ? "selected" : ""}`}
               onClick={() => handleAnswerClick(index)}
             >

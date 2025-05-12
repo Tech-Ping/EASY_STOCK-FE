@@ -34,6 +34,7 @@ export const tutorialSlice = createSlice({
     endTutorial: (state) => {
       state.isTutorial = false;
       state.currentStep = 1;
+      state.dynamicBox = null;
     },
     setCompletedLevel: (state, action: PayloadAction<number>) => {
       state.completedLevel = action.payload;

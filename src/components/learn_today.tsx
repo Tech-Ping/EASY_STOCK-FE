@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import './styles/learn_today_comp.css'
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { fetchUserProfile } from "../store/userSlice";
-import { nextStep, setTutorialBox } from "../store/tutorialSlice";
+import { setTutorialBox } from "../store/tutorialSlice";
 import { tutorialSteps } from "../tutorial/level0";
-import { useRef } from 'react';
 
 const Learn_new: React.FC = () => {
     const navigate = useNavigate();
@@ -15,6 +14,7 @@ const Learn_new: React.FC = () => {
     const loading = useSelector((state: RootState) => state.user.loading);
     const quizButtonRef = useRef<HTMLButtonElement | null>(null);
     const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
+    const tutorialRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
     if (!userInfo) {
@@ -23,20 +23,36 @@ const Learn_new: React.FC = () => {
   }, [dispatch, userInfo]);
 
   useEffect(() => {
-    if (!userInfo) return;
+    if (!userInfo) {
+      dispatch(fetchUserProfile());
+    }
+  }, [dispatch, userInfo]);
 
+  useEffect(() => {
     const updateBox = () => {
-      if (quizButtonRef.current) {
-        const rect = quizButtonRef.current.getBoundingClientRect();
-        const padding = 5;
-        dispatch(setTutorialBox({
-          top: rect.top - padding,
-          left: rect.left - padding,
-          width: rect.width + padding * 2,
-          height: rect.height + padding * 2,
-        }));
+      const padding = 5;
+
+      if (isTutorial) {
+        if (currentStep === 2 && quizButtonRef.current) {
+          const rect = quizButtonRef.current.getBoundingClientRect();
+          dispatch(setTutorialBox({
+            top: rect.top - padding,
+            left: rect.left - padding,
+            width: rect.width + padding * 2,
+            height: rect.height + padding * 2,
+          }));
+        } else if (currentStep === 14 && tutorialRef.current) {
+          const rect = tutorialRef.current.getBoundingClientRect();
+          dispatch(setTutorialBox({
+            top: rect.top - padding,
+            left: rect.left - padding,
+            width: rect.width + padding * 2,
+            height: rect.height + padding * 2,
+          }));
+        }
       }
     };
+    
 
     window.addEventListener('resize', updateBox);
     updateBox();
@@ -48,13 +64,8 @@ const Learn_new: React.FC = () => {
 
   if (!userInfo || loading) return <p>로딩 중...</p>;
 
-  const steps = tutorialSteps(userInfo.nickname);
-  const stepConfig = steps.find(s => s.step === currentStep);
-  const isQuizStep = isTutorial && stepConfig?.waitForAction && currentStep === 3;
-
   const handleQuizClick = () => {
     navigate('/quiz');
-    if (isQuizStep) dispatch(nextStep());
   };
   
     return (
@@ -72,7 +83,7 @@ const Learn_new: React.FC = () => {
 </div>
             </div>
             <div className="buttons">
-                <button className="tutorial" onClick={() => navigate('/tutorial')}>튜토리얼</button>
+                <button ref ={tutorialRef} className="tutorial" onClick={() => navigate('/tutorial')}>튜토리얼</button>
                 <button ref={quizButtonRef} className="quiz" onClick={handleQuizClick}>퀴즈 풀기</button>
             </div>
         </div>

@@ -64,9 +64,14 @@ const App: React.FC = () => {
           <Quiz_tutorial />
         </TutorialWrapper>
         } />
-        <Route path="/tutorial/stoki" element={
+        <Route path="/tutorial/stocki" element={
         <TutorialWrapper>
           <ChatLanding />
+        </TutorialWrapper>
+        } />
+        <Route path="/tutorial/stocki/chat" element={
+        <TutorialWrapper>
+          <ChatScreen />
         </TutorialWrapper>
         } />
         <Route path="/tutorial/stocks/:stockId" element={

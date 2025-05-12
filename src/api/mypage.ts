@@ -32,3 +32,8 @@ export const requestLevelUp = async () => {
   const res = await axiosInstance.post(`${process.env.REACT_APP_API_URL}/api/level/up`);
   return res.data;
 };
+
+export const completeTutorial = async () => {
+  const res = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/api/tutorials/complete`);
+  return res.data;
+};

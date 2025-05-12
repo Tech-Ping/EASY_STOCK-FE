@@ -48,7 +48,7 @@ interface ChatInputStockProps {
       };
 
   return (
-    <div className="chat-input-container-stock">
+    <div className="chat-input-container-stock" >
       <div className="input-fields">
         <div style={{marginLeft:"5px"}}/>
         <div className="date-wrapper">

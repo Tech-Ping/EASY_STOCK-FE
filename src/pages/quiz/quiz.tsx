@@ -5,6 +5,7 @@ import stocky from "../../images/stocky.png";
 import "../../style/quiz.css";
 import WrongAnswerModal from "./quiz_wrong";
 import { fetchQuizQuestion, submitQuizAnswer } from "../../api/quiz";
+import AnswerRevealModal from "./quiz_pass";
 /*
 const dummyData = {
     "id": 2,
@@ -32,6 +33,8 @@ const Quiz: React.FC = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
     const [showWrongModal, setShowWrongModal] = useState(false);
     const navigate = useNavigate();
+    const [wrongCount, setWrongCount] = useState(0);
+    const [showAnswerModal, setShowAnswerModal] = useState(false);
 
     useEffect(() => {
         const loadQuiz = async () => {
@@ -57,19 +60,26 @@ const Quiz: React.FC = () => {
         setSelectedAnswer(index);
     try {
       const res = await submitQuizAnswer(quiz.id, index);
-      if (res.isSuccess) {
-        if (res.result.correct) {
-          navigate("/quiz/result", { state: { data: res.result } });
-        } else {
-          setShowWrongModal(true);
-        }
+       if (res.isSuccess) {
+      if (res.result.correct) {
+        navigate("/quiz/result", { state: { data: res.result } });
       } else {
-        alert("답안 제출 실패");
+        const newWrongCount = wrongCount + 1;
+        setWrongCount(newWrongCount);
+
+        if (newWrongCount === 1) {
+          setShowWrongModal(true);
+        } else {
+          setShowAnswerModal(true); // 두 번째 오답이면 정답 공개
+        }
       }
-    } catch (e) {
-      alert("서버 오류");
+    } else {
+      alert("답안 제출 실패");
     }
-  };
+  } catch (e) {
+    alert("서버 오류");
+  }
+};
 
   if (!quiz) {
     return (
@@ -111,8 +121,15 @@ const Quiz: React.FC = () => {
             </button>
           ))}
         </div>
-        {showWrongModal && <WrongAnswerModal onClose={() => setShowWrongModal(false)} />}
-      </main>
+        {showWrongModal && (
+    <WrongAnswerModal onClose={() => setShowWrongModal(false)} />
+  )}
+
+  {/* 2차 오답 시 정답 공개 모달 */}
+  {showAnswerModal && (
+    <AnswerRevealModal correctAnswer={quiz.options[quiz.answerIndex]} />
+  )}
+</main>
     </div>
   );
 };
