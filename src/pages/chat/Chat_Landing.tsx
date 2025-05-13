@@ -20,7 +20,9 @@ const ChatLanding: React.FC = () => {
   const stockBtnRef = useRef<HTMLButtonElement>(null);
   const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
   const dispatch = useDispatch<AppDispatch>();
-  
+  const userInfo = useSelector((state: RootState) => state.user.userInfo);
+
+
   useEffect(() => {
   let targetRef: React.RefObject<HTMLButtonElement> | null = null;
 
@@ -59,7 +61,7 @@ const ChatLanding: React.FC = () => {
             스토기</p>
         </div>
         <div className ="landing-content">
-           <h2>테크핑님, 반가워요!</h2> {/*나중에 사용자 id로 변경*/} 
+           <h2>{userInfo?.nickname}님, 반가워요!</h2> {/*나중에 사용자 id로 변경*/} 
            <div className="welcome-message">
                 <h1> 저는 당신의 AI 주식비서</h1>
                 <div className="inline-heading">

@@ -47,6 +47,19 @@ const Report: React.FC = () => {
     }, []);
 
 
+    const parsedProfitRates: number[] = [];
+    profitGraph.forEach((entry, index) => {
+  const raw = entry.realProfitRate?.replace("%", "");
+  let rate = raw ? parseFloat(raw) : 0;
+
+  if (rate === -100.0 && index > 0) {
+    // 주말 등의 -100.0% → 전날 값으로 대체
+    rate = parsedProfitRates[index - 1] ?? 0;
+  }
+
+  parsedProfitRates.push(rate);
+});
+
     const chartOptions = {
         chart: {
           type: "line" as const,
@@ -61,15 +74,15 @@ const Report: React.FC = () => {
           },
         tooltip: {
           y: {
-            formatter: (val: number) => `${val.toLocaleString()}원`,
+            formatter: (val: number) => `${val.toLocaleString()}%`,
           },
         },
       };
     
       const chartSeries = [
         {
-          name: "수익 차이 (실 수익 - 총 투자금)",
-          data: profitGraph.map((item) => item.realProfit - item.totalTradeAmount),
+          name: "실 수익률(%)",
+          data: parsedProfitRates,
         },
       ];
 
@@ -108,7 +121,7 @@ const Report: React.FC = () => {
                             ))}
                         </div>
                         <h3 className="title">
-                        총 투자금-실 수익 변동 그래프
+                        수익률 그래프
                         </h3>
                         <div className="chart-wrapper">
                             <ReactApexChart

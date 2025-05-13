@@ -32,23 +32,24 @@
   .chat-header {
     flex-shrink: 0;
     width: 100%;
-    top:0%;
+    top:2%;
     display: flex;
     position: sticky;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff;
   }
+  .chat-title {
+    flex-grow: 1;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: bold;
+  }
   .chat-header .go-back{
     background-color: #ffffff;
     border: none;
   }
-  .chat-title {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
+  
   .welcome-message h1 {
     margin: 5px 0; /* Reduce the spacing between lines */
   }
