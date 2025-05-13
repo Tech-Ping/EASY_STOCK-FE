@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { fetchUserProfile } from "../store/userSlice";
 import { setTutorialBox } from "../store/tutorialSlice";
-import { tutorialSteps } from "../tutorial/level0";
+import { tutorial0Steps } from "../tutorial/level0";
+
+import profile_img from "../images/user_img-removebg.png";
 
 const Learn_new: React.FC = () => {
     const navigate = useNavigate();
@@ -71,7 +73,16 @@ const Learn_new: React.FC = () => {
     return (
         <div className="learn-new-container">
             <div className="learn-new-container-info">
-                <div className="img-container"></div>
+                <div className="img-container">
+                  <img src={profile_img}
+                alt="profile image"
+                className="profile-img"
+                style={{
+                    borderRadius:100,
+                    width: 70,
+
+                }}/>
+                </div>
                 <div className="info-container">
     <h3>
         <span className="highlight-name">{userInfo.nickname}</span>님 안녕하세요!

@@ -15,6 +15,7 @@ type Stock = {
   };
   
   type ProfitGraphEntry = {
+    realProfitRateValue: number;
     date: string;
     totalTradeAmount: number;
     realProfit: number;
@@ -48,12 +49,11 @@ const Report: React.FC = () => {
 
 
     const parsedProfitRates: number[] = [];
-    profitGraph.forEach((entry, index) => {
-  const raw = entry.realProfitRate?.replace("%", "");
-  let rate = raw ? parseFloat(raw) : 0;
+profitGraph.forEach((entry, index) => {
+  let rate = entry.realProfitRateValue ?? 0;
 
   if (rate === -100.0 && index > 0) {
-    // 주말 등의 -100.0% → 전날 값으로 대체
+    // 주말 등 거래 없던 날 → 전날 값 사용
     rate = parsedProfitRates[index - 1] ?? 0;
   }
 

@@ -60,11 +60,12 @@ const Home: React.FC = () => {
     if (isTutorial && currentStep === 12 && stockBtnRef.current) {
       const rect = stockBtnRef.current.getBoundingClientRect();
       const padding = 5;
+      const top = rect.top;
       dispatch(setTutorialBox({
-        top: rect.top - padding,
+        top: top,
         left: rect.left - padding,
         width: rect.width + padding * 2,
-        height: rect.height + padding* 2 ,
+        height: window.innerHeight - top ,
       }));
     }
   }, [isTutorial, currentStep, dispatch]);

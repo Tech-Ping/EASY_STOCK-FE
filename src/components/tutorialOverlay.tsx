@@ -2,11 +2,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { nextStep, endTutorial } from '../store/tutorialSlice';
-import { tutorialSteps } from '../tutorial/level0';
+import { tutorial0Steps } from '../tutorial/level0';
 import "../components/styles/tutorialOverlay.css";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { getTutorialSteps } from '../tutorial/tutorialSelector';
 import { completeTutorial, requestLevelUp } from '../api/mypage';
 
 const TutorialOverlay = () => {
@@ -14,26 +15,29 @@ const TutorialOverlay = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { currentStep, dynamicBox } = useSelector((state: RootState) => state.tutorial);
+  const { currentStep, dynamicBox, currentTutorialLevel } = useSelector(
+    (state: RootState) => state.tutorial
+  );
   const userInfo = useSelector((state: RootState) => state.user.userInfo);
+
+
 
   useEffect(() => {
     if (
-      userInfo &&
       currentStep === 11 &&
       !location.pathname.startsWith('/tutorial/stocki')
     ) {
       navigate('/tutorial/stocki');
     }
-  }, [userInfo, currentStep, location.pathname, navigate]);
+  }, [currentStep, location.pathname, navigate]);
 
-  if (!userInfo) return null;
+  if (!userInfo || !currentTutorialLevel) return null;
 
-  const tutorialLevel = tutorialSteps(userInfo.nickname);
-  const stepConfig = tutorialLevel.find(s => s.step === currentStep);
+  const tutorialSteps = getTutorialSteps(currentTutorialLevel, userInfo.nickname);
+  const stepConfig = tutorialSteps.find((s) => s.step === currentStep);
   if (!stepConfig) return null;
 
-  const box = stepConfig.box || dynamicBox;
+    const box = stepConfig.box || dynamicBox;
 
   const handleOverlayClick = () => {
     if (stepConfig.nextOnAnyClick) {
@@ -46,7 +50,7 @@ const TutorialOverlay = () => {
       navigate(stepConfig.navigateTo);
     }
 
-    const isLastStep = currentStep >= tutorialLevel.length;
+    const isLastStep = currentStep >= tutorialSteps.length;
 
     if (isLastStep) {
       try {
@@ -54,12 +58,12 @@ const TutorialOverlay = () => {
           completeTutorial(),
           requestLevelUp()
         ]);
-        if (completeRes.isSuccess) {
-          alert(completeRes.result.message); // "1000 STOKEN을 보상으로 드려요!" 등
+        if (completeRes?.isSuccess) {
+          alert(completeRes.result.message);
         }
         dispatch(endTutorial());
       } catch (err) {
-        console.error("튜토리얼 완료 API 호출 실패", err);
+        console.error("튜토리얼 완료 API 실패", err);
       }
     } else {
       dispatch(nextStep());

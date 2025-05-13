@@ -3,19 +3,9 @@ import "../components/styles/tutorialOverlay.css";
 import Step5Message from "./lev0_step5";
 import { useSelector, useDispatch } from 'react-redux';
 import Step11Message from "./lev0_step11";
+import { TutorialStepConfig } from "./common";
 
-export interface TutorialStepConfig {
-  step: number;
-  box?: { top: number; left: number; width: number; height: number }; // 뚫을 위치
-  nextOnAnyClick?: boolean;  // true면 화면 아무데나 클릭 시 next
-  waitForAction?: boolean;   // true면 버튼 클릭 시 nextStep() 호출해야 함
-  message?: React.ReactNode; // 단계별 안내 메시지
-  messageContainerStyle?: React.CSSProperties;
-  navigateTo?: string;
-  disableOverlay?: boolean;
-}
-
-export const tutorialSteps = (nickname: string): TutorialStepConfig[] => [
+export const tutorial0Steps = (nickname: string): TutorialStepConfig[] => [
   {
   step: 1,
   box: { top: 0, left: 0, width: 0, height: 0 },
