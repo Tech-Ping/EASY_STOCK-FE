@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/login_page';
@@ -16,8 +16,13 @@ import ChatLanding from './pages/chat/Chat_Landing';
 import ChatScreen from './pages/chat/Chat_Screen';
 import { ChatProvider } from './pages/chat/Chat_Context';
 import './api/fcm.ts';
+import { listenToForegroundMessages, requestNotificationPermission } from './api/fcm';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    requestNotificationPermission();     
+    listenToForegroundMessages();    
+  }, []);
   return (
     <ChatProvider>
     <Router>
