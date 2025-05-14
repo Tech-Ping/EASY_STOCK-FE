@@ -28,7 +28,8 @@ const App: React.FC = () => {
     requestNotificationPermission();
 
     listenToForegroundMessages((title, body) => {
-      setInAppMessage({ title, body }); // 인앱 메시지 상태 저장
+      setInAppMessage({ title, body });
+       console.log("메시지 수신됨", title, body);
     });
   }, []);
   return (
