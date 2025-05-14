@@ -16,7 +16,7 @@ const TutorialEntryPage = () => {
   const tutorialStartRoutes: Record<TutorialLevel, string> = {
     ZERO: '/tutorial/home',
     ONE: '/tutorial/invest',
-    TWO: '/tutorial/stocks/000660',
+    TWO: '/tutorial/stocks/1',
   };
 
   useEffect(() => {
