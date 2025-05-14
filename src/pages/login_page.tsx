@@ -35,7 +35,6 @@ const Login: React.FC = () => {
         localStorage.setItem("accessToken", response.result.tokenResponse.accessToken);
         localStorage.setItem("refreshToken", response.result.tokenResponse.refreshToken);
 
-        console.log("login successful:", response);
 
         // 로그인 후 페이지 이동
         navigate("/home");

@@ -19,7 +19,8 @@ export const signUp = async (formData: {
       },
     });
     
-    console.log("authentication successful:", response.data);
+    //console.log("authentication successful:", response.data);
+    console.log("authentication successful:");
     return response.data;
   } catch (error: any) {
     console.error("authentication failed:", error.response?.data || error.message);
@@ -35,11 +36,10 @@ export const login = async (formData: { username: string; password: string }) =>
         },
       });
   
-      console.log("login successful:", response.data);
-
+      //console.log("login successful:", response.data);
+      console.log("login successful");
     const accessToken = response.data.result.accessToken;
     localStorage.setItem("accessToken", accessToken);
-
     return response.data;
   } catch (error: any) {
     console.error("login failed:", error.response?.data || error.message);

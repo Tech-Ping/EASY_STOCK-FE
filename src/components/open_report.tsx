@@ -8,7 +8,7 @@ interface UserProfile {
 
 const Open_Report: React.FC = () => {
     const navigate = useNavigate();
-    const [userData, setUserData] = useState<UserProfile>(
+    const [userData] = useState<UserProfile>(
         {
             nickname: "테크핑"
         }
