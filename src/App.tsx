@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/login_page';
@@ -15,12 +15,32 @@ import ChatbotButton from './components/chatbotButton';
 import ChatLanding from './pages/chat/Chat_Landing';
 import ChatScreen from './pages/chat/Chat_Screen';
 import { ChatProvider } from './pages/chat/Chat_Context';
+import './api/fcm.ts';
+import { listenToForegroundMessages, requestNotificationPermission } from './api/fcm';
 import TutorialWrapper from './components/tutorialWrapper';
 import Quiz_tutorial from './pages/quiz/tutorial_quiz';
 import TutorialEntryPage from './pages/tutorialEntry';
 
 const App: React.FC = () => {
+  const [inAppMessage, setInAppMessage] = useState<{ title: string; body: string } | null>(null);
+
+  useEffect(() => {
+    requestNotificationPermission();
+
+    listenToForegroundMessages((title, body) => {
+      setInAppMessage({ title, body }); // 인앱 메시지 상태 저장
+    });
+  }, []);
   return (
+     <>
+      {/* 인앱 메시지 배너 */}
+      {inAppMessage && (
+        <div className="in-app-banner">
+          <strong>{inAppMessage.title}</strong>
+          <p>{inAppMessage.body}</p>
+        </div>
+      )}
+      
     <ChatProvider>
     <Router>
       <Routes>
@@ -85,6 +105,7 @@ const App: React.FC = () => {
       <ChatbotButton/>
     </Router>
     </ChatProvider>
+    </>
   );
 };
 /*

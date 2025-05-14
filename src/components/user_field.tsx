@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import profile_img from "../images/user_img.png";
 import Stoken from "./stocken";
 import './styles/user_field.css';

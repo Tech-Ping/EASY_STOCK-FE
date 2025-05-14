@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {signUp } from "../api/auth";
 import '../style/signup.css';
+import { requestNotificationPermission, saveFcmTokenToServer } from '../api/fcm';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -20,10 +21,17 @@ const Signup: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(e.target.checked);
-    setFormData((prev) => ({ ...prev, isAgreed: e.target.checked })); 
-  };
+  const handleCheckboxChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checked = e.target.checked;
+  setIsChecked(checked);
+
+  if (checked) {
+    const token = await requestNotificationPermission();
+    if (token) {
+      await saveFcmTokenToServer(token);
+    }
+  }
+};
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
