@@ -6,6 +6,7 @@ export const listenToForegroundMessages = (
   onReceive: (title: string, body: string) => void
 ) => {
   onMessage(messaging, (payload) => {
+    console.log("foreground 수신확인:", payload);
     const { title, body } = payload.notification ?? {};
     if (title && body) {
       new Notification(title, { body }); // 브라우저 알림
@@ -17,21 +18,19 @@ export const listenToForegroundMessages = (
 const API_BASE_URL = process.env.REACT_APP_API_URL; // .env에 설정한 백엔드 도메인
 
 
-export const requestNotificationPermission = async (): Promise<string | null> => {
+// fcm.ts
+export const requestNotificationPermission = async (onMessageCallback?: (payload: any) => void): Promise<string | null> => {
   try {
-    // 🔹 서비스워커 등록을 기다림
     const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
-    console.log("SW 등록 성공", registration);
+    //console.log("SW 등록 성공", registration);
+    console.log("SW 등록 성공");
 
-    const sw = await navigator.serviceWorker.ready;
-    // 🔹 알림 권한 요청
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
-      console.warn("알림 권한 거부");
+      console.warn("알림 권한 거부됨");
       return null;
     }
 
-    // 🔹 FCM 토큰 요청 (서비스워커 연결!)
     const token = await getToken(messaging, {
       vapidKey: process.env.REACT_APP_FCM_VAPID_KEY,
       serviceWorkerRegistration: registration,
@@ -43,12 +42,18 @@ export const requestNotificationPermission = async (): Promise<string | null> =>
     }
 
     console.log("FCM 토큰:", token);
+
+    if (onMessageCallback) {
+      onMessage(messaging, onMessageCallback);
+    }
+
     return token;
   } catch (err) {
-    console.error("알림 설정 실패:", err);
+    console.error("알림 등록 중 오류", err);
     return null;
   }
 };
+
 
 export const saveFcmTokenToServer = async (token: string) => {
   try {

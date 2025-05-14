@@ -19,7 +19,8 @@ export const signUp = async (formData: {
       },
     });
     
-    console.log("authentication successful:", response.data);
+    //console.log("authentication successful:", response.data);
+    console.log("authentication successful:");
     return response.data;
   } catch (error: any) {
     console.error("authentication failed:", error.response?.data || error.message);
