@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style/ChatInput.css"
 import { ArrowUp } from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { setTutorialBox } from "../../store/tutorialSlice";
 
 interface ChatInputProps {
   onSendMessage: (prompt: string) => void;
@@ -27,8 +30,32 @@ const ChatInput: React.FC<ChatInputProps> = ({
     }
   };
 
+  const inputRef = useRef<HTMLDivElement>(null);
+  const stockBtnRef = useRef<HTMLDivElement>(null);
+  const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
+  const dispatch = useDispatch<AppDispatch>();
+  
+  useEffect(() => {
+  let targetRef: React.RefObject<HTMLDivElement> | null = null;
+
+  if (isTutorial) {
+    if (currentStep === 10) targetRef = inputRef;
+  }
+
+  if (targetRef?.current) {
+    const rect = targetRef.current.getBoundingClientRect();
+    const padding = 3;
+    dispatch(setTutorialBox({
+      top: rect.top,
+      left: rect.left,
+      width: rect.width - padding * 2,
+      height: rect.height - padding * 2,
+    }));
+  }
+}, [isTutorial, currentStep, dispatch]);
+
   return (
-    <div className="chat-input-container">
+    <div className="chat-input-container" ref={inputRef}>
       <textarea
         className="chat-input"
         value={inputValue}

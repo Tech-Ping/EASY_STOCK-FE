@@ -11,7 +11,7 @@
   .news-card.home {
     align-items: flex-start;
   }
-  
+  /*
   .news-card.home .thumbnail {
     width: 50px;
     height: 50px;
@@ -20,7 +20,7 @@
     margin-right: 10px;
     margin-top:10px;
   }
-  
+  */
   .news-card.home .news-title {
     font-weight: 500;
     font-size: 15px;

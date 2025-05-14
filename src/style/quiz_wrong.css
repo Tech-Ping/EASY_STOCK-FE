@@ -45,3 +45,6 @@
     margin: 10px 0 50px -30px;
   }
   
+  .modal-overlay .home-button {
+    width: 90%;
+  }
