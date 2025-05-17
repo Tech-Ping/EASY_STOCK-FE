@@ -85,7 +85,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="home-container">
-            <Header title="홈"/>
+            <Header title=""/>
             <main className="home-component-container">
                 <Learn_new/>
                 <div className="userfield-container">

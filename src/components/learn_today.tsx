@@ -17,6 +17,14 @@ const Learn_new: React.FC = () => {
     const quizButtonRef = useRef<HTMLButtonElement | null>(null);
     const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
     const tutorialRef = useRef<HTMLButtonElement>(null);
+    const getToday = (): string => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1;
+      const day = today.getDate();
+
+  return `${year}년 ${month}월 ${day}일`;
+};
 
     useEffect(() => {
     if (!userInfo) {
@@ -87,7 +95,7 @@ const Learn_new: React.FC = () => {
     <h3>
         <span className="highlight-name">{userInfo.nickname}</span>님 안녕하세요!
     </h3>
-    <h3 className="date">2024년 10월 10일</h3>
+    <h3 className="date">{getToday()}</h3>
     <h2 className="main">
         <span className="highlight-main">오늘의 주식 공부</span>하기
     </h2>
