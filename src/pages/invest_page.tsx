@@ -217,7 +217,7 @@ const StockInv: React.FC = () => {
   })}
 </tbody>
             </table>
-            {inventoryList.length > 3 && (
+            {filteredInven.length > 3 && (
       <button
         className="toggle-history-btn"
         onClick={() => setShowAll((prev) => !prev)}
