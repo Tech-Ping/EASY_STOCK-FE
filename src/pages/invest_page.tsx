@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserProfile } from "../api/auth";
 import { getInventory, getStockList } from "../api/stocks"; 
 import { setBookmark } from "../api/stocks";
-import { getTradeList } from "../api/order";
+import { cancelTrade, getTradeList, postTrade } from "../api/order";
 import { getBookmarkStockStatus } from "../api/mypage";
 
 interface InventoryItem {
@@ -96,6 +96,65 @@ const StockInv: React.FC = () => {
     return map;
   }, [stockList]);
               
+  const getCurrentPriceMap = useMemo(() => {
+  const priceMap: Record<number, number> = {};
+  stockList.forEach((s) => {
+    priceMap[s.id] = s.stckPrpr;
+  });
+  return priceMap;
+}, [stockList]);
+useEffect(() => {
+  const interval = setInterval(async () => {
+    if (pendingTrades.length === 0) return;
+
+    for (const trade of pendingTrades) {
+      const currentPrice = getCurrentPriceMap[trade.stockId];
+      if (!currentPrice) continue;
+
+      const shouldReorder =
+        (trade.type === "BUY" && currentPrice <= trade.price) ||
+        (trade.type === "SELL" && currentPrice >= trade.price);
+
+      if (shouldReorder) {
+        try {
+          const result = await postTrade({
+            type: trade.type,
+            quantity: trade.quantity,
+            tradePrice: trade.price,
+            currentPrice,
+            stockId: trade.stockId,
+          });
+
+          if (result.isSuccess) {
+            console.log(`자동 주문 재요청: ${trade.stockName}`);
+          } else {
+            console.warn(`재요청 실패: ${result.message}`);
+          }
+        } catch (err) {
+          console.error("주문 재요청청 오류:", err);
+        }
+      }
+    }
+  }, 10000);
+
+  return () => clearInterval(interval);
+}, [pendingTrades, getCurrentPriceMap]);
+
+  const handleCancel = async (tradeId: number) => {
+  try {
+    const result = await cancelTrade(tradeId);
+    if (result.isSuccess) {
+      alert("주문이 취소되었습니다.");
+      // 필요 시 주문 목록 새로고침
+    } else {
+      alert(`취소 실패: ${result.message}`);
+    }
+  } catch (error) {
+    console.error(error);
+    alert("요청 중 오류가 발생했습니다.");
+  }
+};
+
   const visibleInven = useMemo(() => showAll ? inventoryList : inventoryList.slice(0, 3), [showAll, inventoryList]);
   const visiblePending = useMemo(() => showAll ? pendingTrades : pendingTrades.slice(0, 3), [showAll, pendingTrades]);
   const visibleComplete = useMemo(() => showAll ? completedTrades : completedTrades.slice(0, 3), [showAll, completedTrades]);
@@ -218,7 +277,9 @@ const StockInv: React.FC = () => {
               <tbody>
               {visiblePending.map((trade) => (
                 <tr key={trade.tradeId}>
-                  <td>{trade.stockName}</td>
+                  <td 
+                  onClick={() => handleCancel(trade.tradeId)}
+                  style={{ cursor: "pointer", textDecoration: "underline" }}>{trade.stockName}</td>
                   <td>{trade.type === "BUY" ? "매수" : "매도"}</td>
                   <td>
                     {trade.price.toLocaleString()}
