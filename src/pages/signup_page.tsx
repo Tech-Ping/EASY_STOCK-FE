@@ -25,11 +25,10 @@ const Signup: React.FC = () => {
   const checked = e.target.checked;
   setIsChecked(checked);
 
+  setFormData({ ...formData, isAgreed: checked });
+
   if (checked) {
-    const token = await requestNotificationPermission();
-    if (token) {
-      await saveFcmTokenToServer(token);
-    }
+    await requestNotificationPermission();
   }
 };
 
