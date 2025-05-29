@@ -9,6 +9,7 @@ import { getInventory, getStockList } from "../api/stocks";
 import { setBookmark } from "../api/stocks";
 import { cancelTrade, getTradeList, postTrade } from "../api/order";
 import { getBookmarkStockStatus } from "../api/mypage";
+import NeedLevelupModal from "../components/needlevelupModal";
 
 interface InventoryItem {
   memberId: number;
@@ -35,6 +36,17 @@ const StockInv: React.FC = () => {
           xpGuage: number;
         }>(null);
   const [inventoryList, setInventoryList] = useState<InventoryItem[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const levelMapping: { [key: string]: { level: number; } } = {
+  ZERO: { level: 0 },
+  ONE: { level: 1 },
+  TWO: { level: 2 },
+  THREE: { level: 3 },
+  FOUR: { level: 4 },
+  FIVE: { level: 5 },
+  SIX: { level: 6 },
+};
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -151,6 +163,14 @@ const StockInv: React.FC = () => {
         </div>
       );
     }
+    const handleStockClick = (stockId: number) => {
+  if (userInfo && levelMapping[userInfo.level]?.level >= 1) {
+    navigate(`/stocks/${stockId}`);
+  } else {
+    setShowModal(true);
+  }
+};
+
 
     return (
         <div className="invest-page-container">
@@ -328,7 +348,7 @@ const StockInv: React.FC = () => {
             </button>
             <div>
               <a
-                onClick={() => navigate(`/stocks/${stock.id}`)}
+                onClick={() => handleStockClick(stock.id)}
                 className="stock-link"
               >
                 {stock.stockName}
@@ -354,6 +374,7 @@ const StockInv: React.FC = () => {
   </div>
     </div>
       </main>
+      {showModal && <NeedLevelupModal onClose={() => setShowModal(false)} />}
       <Footer/>
     </div>
     );
