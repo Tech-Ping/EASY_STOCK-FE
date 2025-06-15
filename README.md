@@ -14,12 +14,14 @@
 * React 18
 * Javascript (CRA-based)
 * Create React App (React script-based)
-* Alpha Ventage API
+* Alpha Vantage API
+* Axios
 -  **DEPLOY**
     - Netlify
 
 ### UI & Styling
 - CSS modules + styling for components
+- React-ApexCharts (based on ApexCharts)
 - custom animations
 ###  State management
   - Redux ToolKit <br>
@@ -27,12 +29,20 @@
 
 ---
 
+## 주요기능
+- 챗봇 인터페이스
+- 퀴즈 & 튜토리얼 학습 화면
+- 투자 리포트 시각화
+- 주식 캔들차트 시각화
+
+---
+
 ## How to Run
 
 1. 프로젝트 클론
 ```bash
-git clone https://github.com/Tech-Ping/EASY_STOCK-BE.git
-cd EASY_STOCK-FE
+git clone https://github.com/Tech-Ping/EASY_STOCK-FE.git
+cd EASY-STOCK-FE/easy-stock-fe
 ```
 
 2. 패키지 설치
@@ -48,6 +58,9 @@ npm start
 4. 브라우저에서 접속 - `http://localhost:3000`
 
 ---
+
+## 배포 링크
+[https://easystock.netlify.app](https://easystock.netlify.app)
 
 
 ## 📁 API Spec Document
