@@ -51,11 +51,19 @@ cd EASY-STOCK-FE/easy-stock-fe
 npm install
 ```
 
-3. 개발 서버 실행
+3. 환경 변수 설정
+`.env` 파일을 프로젝트 루트(`easy-stock-fe/`)에 생성하고,  
+`.env.example` 파일을 참고해 작성하세요:
+
+```bash
+cp .env.example .env
+```
+
+4. 개발 서버 실행
 ```bash
 npm start
 ```
-4. 브라우저에서 접속 - `http://localhost:3000`
+5. 브라우저에서 접속 - `http://localhost:3000`
 
 ---
 
