@@ -1,0 +1,121 @@
+
+.chat-landing-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.chat-landing-container {
+  flex: 1; /* Allow this to expand and fill available space */
+  margin: 0 auto;
+  max-width: 700px; /* 원하는 최대 너비 설정 */
+  width: 100%; /* 전체 화면 너비 채우기 */
+  height: calc(100vh - 100px);
+  overflow: hidden;
+  position: relative;
+}
+
+.category-selection {
+  flex-shrink: 0;
+  width: 100%; /* Match the parent width */
+  position: absolute; /* Use absolute positioning */
+  bottom: 0; /* Stick to the bottom of the parent container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* Optional background color */
+  padding: 1rem 0; /* Padding for spacing */
+}
+  
+  .chat-header {
+    flex-shrink: 0;
+    width: 100%;
+    top:2%;
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+  }
+  .chat-title {
+    flex-grow: 1;
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .chat-header .go-back{
+    background-color: #ffffff;
+    border: none;
+  }
+  
+  .welcome-message h1 {
+    margin: 5px 0; /* Reduce the spacing between lines */
+  }
+  .landing-content {
+    margin: 20px;
+    flex:1;
+  }
+  .highlight-text {
+    color: #00CE93;
+    font-weight: bold;
+    margin: 0;
+  }
+  .no-margin {
+    margin: 0;
+  }
+  .inline-heading {
+    display: inline-flex;
+    gap: 4px; /* Add space between the texts */
+  }
+  
+  .inline-heading h1 {
+    margin: 0; /* Remove default margin */
+  }
+
+  .landing-image {
+    margin: 40px auto; /* Center the image horizontally */
+    display: block; /* Ensures the image respects its container */
+    position: relative; /* Allows the use of left/right adjustments */
+    left: 10%;
+  }
+  .category-texts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:0px;
+    flex-wrap: wrap;
+  }
+  .category-item {
+    margin: 0 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .category-item p {
+    width: 95px;
+    margin: -5px 0;
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #555; /* Darker text */
+  }
+  
+  .category-button {
+    
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #00CE93;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 170px;
+    height: 50px;
+  }
+  
+  .category-button:hover {
+    background-color: #315d51;
+  }
