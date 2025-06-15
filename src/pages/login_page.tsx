@@ -3,6 +3,7 @@ import { login } from '../api/auth';
 import '../style/login.css';
 import { useNavigate } from 'react-router-dom';
 import stocki from '../images/stocky-clear.png';
+import { requestNotificationPermission, saveFcmTokenToServer } from '../api/fcm';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const Login: React.FC = () => {
         localStorage.setItem("accessToken", response.result.tokenResponse.accessToken);
         localStorage.setItem("refreshToken", response.result.tokenResponse.refreshToken);
 
+        const fcmToken = await requestNotificationPermission();
+        if (fcmToken) {
+          await saveFcmTokenToServer(fcmToken); // 이때 accessToken 존재!
+        }
 
         // 로그인 후 페이지 이동
         navigate("/home");

@@ -29,6 +29,7 @@ const Home: React.FC = () => {
       const { isTutorial, currentStep } = useSelector((state: RootState) => state.tutorial);
       const dispatch = useDispatch<AppDispatch>();
       const userFieldRef = useRef<HTMLDivElement>(null);
+      const [newsLoaded, setNewsLoaded] = useState(false);
 
       useEffect(() => {
         const fetchProfile = async () => {
@@ -47,6 +48,7 @@ const Home: React.FC = () => {
           try {
             const allNews = await fetchAllNews();
             setNews(allNews);
+            setNewsLoaded(true);
           } catch (err) {
             console.error("뉴스 로드 실패:", err);
           }
@@ -57,18 +59,18 @@ const Home: React.FC = () => {
       }, []);
 
       useEffect(() => {
-    if (isTutorial && currentStep === 12 && stockBtnRef.current) {
+    if (isTutorial && currentStep === 12 && stockBtnRef.current && newsLoaded) {
       const rect = stockBtnRef.current.getBoundingClientRect();
       const padding = 5;
       const top = rect.top;
       dispatch(setTutorialBox({
-        top: top,
+        top: top - padding * 6,
         left: rect.left - padding,
         width: rect.width + padding * 2,
         height: window.innerHeight - top ,
       }));
     }
-  }, [isTutorial, currentStep, dispatch]);
+  }, [isTutorial, currentStep, newsLoaded, dispatch]);
 
   useEffect(() => {
   if (isTutorial && currentStep === 13 && userFieldRef.current) {
@@ -85,7 +87,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="home-container">
-            <Header title="홈"/>
+            <Header title=""/>
             <main className="home-component-container">
                 <Learn_new/>
                 <div className="userfield-container">

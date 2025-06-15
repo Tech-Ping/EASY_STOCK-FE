@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import UserField from "../components/user_field";
@@ -9,6 +9,7 @@ import { getInventory, getStockList } from "../api/stocks";
 import { setBookmark } from "../api/stocks";
 import { cancelTrade, getTradeList, postTrade } from "../api/order";
 import { getBookmarkStockStatus } from "../api/mypage";
+import NeedLevelupModal from "../components/needlevelupModal";
 
 interface InventoryItem {
   memberId: number;
@@ -35,6 +36,17 @@ const StockInv: React.FC = () => {
           xpGuage: number;
         }>(null);
   const [inventoryList, setInventoryList] = useState<InventoryItem[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const levelMapping: { [key: string]: { level: number; } } = {
+  ZERO: { level: 0 },
+  ONE: { level: 1 },
+  TWO: { level: 2 },
+  THREE: { level: 3 },
+  FOUR: { level: 4 },
+  FIVE: { level: 5 },
+  SIX: { level: 6 },
+};
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -103,49 +115,12 @@ const StockInv: React.FC = () => {
   });
   return priceMap;
 }, [stockList]);
-useEffect(() => {
-  const interval = setInterval(async () => {
-    if (pendingTrades.length === 0) return;
-
-    for (const trade of pendingTrades) {
-      const currentPrice = getCurrentPriceMap[trade.stockId];
-      if (!currentPrice) continue;
-
-      const shouldReorder =
-        (trade.type === "BUY" && currentPrice <= trade.price) ||
-        (trade.type === "SELL" && currentPrice >= trade.price);
-
-      if (shouldReorder) {
-        try {
-          const result = await postTrade({
-            type: trade.type,
-            quantity: trade.quantity,
-            tradePrice: trade.price,
-            currentPrice,
-            stockId: trade.stockId,
-          });
-
-          if (result.isSuccess) {
-            console.log(`자동 주문 재요청: ${trade.stockName}`);
-          } else {
-            console.warn(`재요청 실패: ${result.message}`);
-          }
-        } catch (err) {
-          console.error("주문 재요청청 오류:", err);
-        }
-      }
-    }
-  }, 10000);
-
-  return () => clearInterval(interval);
-}, [pendingTrades, getCurrentPriceMap]);
 
   const handleCancel = async (tradeId: number) => {
   try {
     const result = await cancelTrade(tradeId);
     if (result.isSuccess) {
       alert("주문이 취소되었습니다.");
-      // 필요 시 주문 목록 새로고침
     } else {
       alert(`취소 실패: ${result.message}`);
     }
@@ -155,7 +130,8 @@ useEffect(() => {
   }
 };
 
-  const visibleInven = useMemo(() => showAll ? inventoryList : inventoryList.slice(0, 3), [showAll, inventoryList]);
+  const filteredInven = useMemo(() => inventoryList.filter((item) => item.quantity > 0), [inventoryList]);
+  const visibleInven = useMemo(() => showAll ? filteredInven : filteredInven.slice(0, 3), [showAll, filteredInven]);
   const visiblePending = useMemo(() => showAll ? pendingTrades : pendingTrades.slice(0, 3), [showAll, pendingTrades]);
   const visibleComplete = useMemo(() => showAll ? completedTrades : completedTrades.slice(0, 3), [showAll, completedTrades]);
 
@@ -187,6 +163,14 @@ useEffect(() => {
         </div>
       );
     }
+    const handleStockClick = (stockId: number) => {
+  if (userInfo && levelMapping[userInfo.level]?.level >= 1) {
+    navigate(`/stocks/${stockId}`);
+  } else {
+    setShowModal(true);
+  }
+};
+
 
     return (
         <div className="invest-page-container">
@@ -253,7 +237,7 @@ useEffect(() => {
   })}
 </tbody>
             </table>
-            {inventoryList.length > 3 && (
+            {filteredInven.length > 3 && (
       <button
         className="toggle-history-btn"
         onClick={() => setShowAll((prev) => !prev)}
@@ -364,7 +348,7 @@ useEffect(() => {
             </button>
             <div>
               <a
-                onClick={() => navigate(`/stocks/${stock.id}`)}
+                onClick={() => handleStockClick(stock.id)}
                 className="stock-link"
               >
                 {stock.stockName}
@@ -390,6 +374,7 @@ useEffect(() => {
   </div>
     </div>
       </main>
+      {showModal && <NeedLevelupModal onClose={() => setShowModal(false)} />}
       <Footer/>
     </div>
     );

@@ -20,7 +20,7 @@ const Step11Message: React.FC = () => {
         className="tutorial-next-button"
         style={{
           padding: '12px 24px',
-          fontSize: '16px',
+          fontSize: '12px',
           fontWeight: '500',
           background: 'rgba(0,0,0,0.6)',
           color: 'white',

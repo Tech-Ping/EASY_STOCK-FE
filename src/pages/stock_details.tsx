@@ -11,6 +11,7 @@ import StockChart from "./stock_tabs/chart";
 import "../style/stock_details.css";
 import axios from "axios";
 import { getStockDetail } from "../api/stocks";
+import Charts_tmp from "./stock_tabs/chart_tmp";
 
 
 interface StockDetail {
@@ -44,6 +45,7 @@ interface StockDetail {
           return <StockOrders />;
         case "차트":
           return <StockChart />;
+          //return <Charts_tmp />;
         case "투자자":
           return <StockInvestors />;
         case "뉴스":

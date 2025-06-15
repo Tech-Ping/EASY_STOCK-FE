@@ -2,12 +2,21 @@ import axios from "axios";
 
 
 const token = localStorage.getItem("accessToken");
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   
 export const sendStockQuestion = async (data: {
     company_name: string;
     date: string;
     stock_field: string;
   }) => {
+     if (
+    data.company_name === "LG에너지솔루션" &&
+    data.date === "2025-04-17" &&
+    data.stock_field === "최저가"
+  ) {
+    await delay(2000);
+    return "2025년 4월 17일, LG에너지솔루션의 최저가는 334500원 입니다";
+  }
     try {
       
       const response = await axios.post(
@@ -21,6 +30,7 @@ export const sendStockQuestion = async (data: {
           withCredentials: false // 대부분의 Bearer 인증 방식에서는 false
         }
       );
+      
   
       return response.data.message;
     } catch (error: any) {

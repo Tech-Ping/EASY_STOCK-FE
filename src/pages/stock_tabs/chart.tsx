@@ -25,13 +25,14 @@ const StockChart: React.FC = () => {
     
     const fetchStockData = async () => {
       setLoading(true);
-      const symbol = '005930'; // Change to your target stock
+      const symbol = 'AAPL'; // Change to your target stock
       const apiKey = process.env.REACT_APP_STOCK_API; 
   
       try {
         const response = await axios.get(
           `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${selectedInterval}&outputsize=30&apikey=${apiKey}`
         );
+        console.log('API 응답:', response.data);
   
         if (response.data && response.data.values) {
           const formattedData = response.data.values.map((item: any) => ({
@@ -61,7 +62,8 @@ const StockChart: React.FC = () => {
       }, [selectedInterval]);
 
     if (loading) return <p>차트 불러오는 중...</p>;
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <p>Error: {error}</p>
+    ;
 
 
     const chartOptions: ApexOptions = {

@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
     <footer className="footer-container">
       {/* Home Button */}
       <button
-        className={`footer-button ${isActive('/') || isActive('/notification') ? 'active' : ''}`}
+        className={`footer-button ${isActive('/home') || isActive('/notification') ? 'active' : ''}`}
         onClick={() => navigate('/home')}>
         <GoHomeFill className="icon" />
       </button>
